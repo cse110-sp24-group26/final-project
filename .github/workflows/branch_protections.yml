@@ -27,3 +27,5 @@ jobs:
         run: npm test
       - name: Run eslint 
         run: npm run lint
+      - name: Run docs build to ensure no errors
+        run: npm run docs
