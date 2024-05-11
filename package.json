@@ -8,7 +8,7 @@
   },
   "scripts": {
     "test": "cypress run --headless --browser electron",
-    "docs": "jsdoc src -d docs",
+    "docs": "jsdoc src -r -d docs",
     "lint": "eslint src"
   }
 }
