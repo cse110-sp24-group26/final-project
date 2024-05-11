@@ -1,8 +1,8 @@
 name: Create Documentation and Deploy static content to Pages
 
 on:
-  # Runs on pull requests targeting the default branch
-  pull_request:
+  # Runs on pushes targetting the default branch
+  push:
     branches: ["main"]
 
   # Allows you to run this workflow manually from the Actions tab
