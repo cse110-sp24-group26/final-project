@@ -2,7 +2,7 @@
 name: Documentation
 about: Report areas where documentation is lacking
 title: 'Documentation:'
-labels: ''
+labels: documentation
 assignees: ''
 
 ---

@@ -2,7 +2,7 @@
 name: Testing
 about: Report areas where testing is lacking
 title: 'Testing: '
-labels: ''
+labels: testing
 assignees: ''
 
 ---

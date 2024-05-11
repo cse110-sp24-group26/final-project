@@ -2,7 +2,7 @@
 name: DevOps
 about: Report areas where developer tooling can be improved
 title: 'DevOps: '
-labels: ''
+labels: devops
 assignees: ''
 
 ---
