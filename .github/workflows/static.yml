@@ -1,9 +1,8 @@
-# Simple workflow for deploying static content to GitHub Pages
 name: Create Documentation and Deploy static content to Pages
 
 on:
-  # Runs on pushes targeting the default branch
-  push:
+  # Runs on pull requests targeting the default branch
+  pull_request:
     branches: ["main"]
 
   # Allows you to run this workflow manually from the Actions tab
@@ -33,11 +32,23 @@ jobs:
         uses: actions/checkout@v4
       - name: Setup Pages
         uses: actions/configure-pages@v5
+
+      - name: Install Dependencies
+        run: npm install
+      - name: Create Build Directory
+        run: mkdir build
+      - name: Copy Source Files to build
+        run: cp -r src/ build
+      - name: Generate Documentation
+        run: npm run docs
+      - name: Copy Documentation to build
+        run: cp -r docs build
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Upload entire repository
-          path: '.'
+          # Upload build directory
+          path: './build'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
