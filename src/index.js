@@ -14,4 +14,4 @@
 function addNumbers(value1, value2) {
   return value1 + value2;
 }
-console.log("Hello World");
+console.log("Hello World " + addNumbers(1, 2));
