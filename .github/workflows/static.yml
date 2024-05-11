@@ -38,7 +38,7 @@ jobs:
       - name: Create Build Directory
         run: mkdir build
       - name: Copy Source Files to build
-        run: cp -r src/ build
+        run: cp -r src/. build
       - name: Generate Documentation
         run: npm run docs
       - name: Copy Documentation to build
