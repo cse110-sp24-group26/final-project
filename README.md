@@ -17,5 +17,5 @@
 3. Source files are present in the `src` directory.
 4. Test files are present under `cypress/{e2e,component,unit}`
 5. Use `npm run docs` for generating documentation (locally) and `npm test` for running tests (in headless mode)
-6. Use 'npm run lint' to run linter
+6. Use `npm run lint` to run linter
 
