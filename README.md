@@ -1,5 +1,7 @@
 # Team 26 Final Project
 
+Developer Journal
+
 ## Developers
 1. Make sure to use our git commit message template when possible
 
