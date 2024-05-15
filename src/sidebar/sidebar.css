@@ -1,0 +1,21 @@
+m-sidebar {
+    display: flex;
+    flex-direction: column;
+
+    border: solid 1px;
+
+    align-self: stretch;
+}
+
+m-toolbar {
+    border: solid 1px black;
+	text-align: center;
+}
+
+m-calendar {
+    text-align: center;
+    min-height: 15rem;
+    min-width: 15rem;
+
+    border: solid 1px black;
+}

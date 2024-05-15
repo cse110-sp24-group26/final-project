@@ -1,17 +1,25 @@
-/**
- * Adds two numbers together and returns the result.
- * @param {number} value1 - The first value
- * @param {number} value2 - The second value
- * @returns {string} The values that have been added together
- * @example
- * const a = 10;
- * const b = 20;
- *
- * const result = addNumbers(a, b);
- * console.log(result);
- * // Logs: 30
- */
-function addNumbers(value1, value2) {
-  return value1 + value2;
+/* ROOT_COMPONENT.js */
+/* The root element of everything, owning the sidebar, search bar, and main editor */
+
+import "./editor/editor.js"
+import "./sidebar/sidebar.js"
+import "./search/search_bar.js"
+
+class RootComponent extends HTMLElement {
+    connectedCallback() {
+        this.innerHTML = `
+            <main>
+                <m-sidebar>
+                </m-sidebar>
+                <div id='main-content'>
+                    <m-search-bar>
+                    </m-search-bar>
+                    <m-editor>
+                    </m-editor>
+                </div>
+            </main>
+        `
+    }
 }
-console.log("Hello World " + addNumbers(1, 2));
+
+customElements.define('m-root-component', RootComponent);

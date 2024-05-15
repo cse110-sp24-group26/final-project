@@ -2,7 +2,18 @@
 
 Developer Journal
 
-## Developers
+## Conventions
+- CSS: use rem as much as possible instead of px
+- Tab size: 4 spaces
+- Lines less than 100 characters
+- pascalCase
+- Same line curly braces
+- Every function is documented, summary for complex files and funcctions with additional comments for complex logic, present tense
+- Include examples in comments for complex functions
+- Code is as self-documented as possible
+- Avoid hard-coded values, use variables for constants
+
+## Development Process
 1. Make sure to use our git commit message template when possible
 
 ```
