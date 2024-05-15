@@ -5,9 +5,9 @@
 /* PUBLISHES open_tab event (via state/events.js) once a search result is selected */
 
 class SearchBar extends HTMLElement {
-	connectedCallback() {
-		this.innerHTML = "Search Bar"
-	}
+    connectedCallback() {
+        this.innerHTML = "Search Bar"
+    }
 }
 
 customElements.define('m-search-bar', SearchBar);
