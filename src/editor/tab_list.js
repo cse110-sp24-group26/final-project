@@ -25,4 +25,3 @@ class TabList extends HTMLElement {
 }
 
 customElements.define('m-tab-list', TabList);
-

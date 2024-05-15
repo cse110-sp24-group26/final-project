@@ -10,6 +10,7 @@
 
 import './calendar/calendar.js'
 import './toolbar.js'
+import './tags.js'
 
 class Sidebar extends HTMLElement {
     connectedCallback() {
@@ -19,6 +20,9 @@ class Sidebar extends HTMLElement {
 
             <m-calendar>
             </m-calendar>
+
+            <m-tags>
+            </m-tags>
             
             <div>
                 Remaining space

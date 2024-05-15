@@ -4,6 +4,8 @@
 import "./editor/editor.js"
 import "./sidebar/sidebar.js"
 import "./search/search_bar.js"
+import "./state/database.js"
+import "./state/events.js"
 
 class RootComponent extends HTMLElement {
     connectedCallback() {

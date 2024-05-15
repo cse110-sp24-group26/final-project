@@ -27,6 +27,13 @@ m-tab-list {
 	border: solid 1px black;
 }
 
+m-editor-tools {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	border: solid 1px black;
+}
 
 /* MARK: main editor */
 m-main-editor {

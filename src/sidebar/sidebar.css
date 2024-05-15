@@ -19,3 +19,9 @@ m-calendar {
 
     border: solid 1px black;
 }
+
+m-tags {
+    border: solid 1px black;
+	text-align: center;
+    min-height: 5rem;
+}
