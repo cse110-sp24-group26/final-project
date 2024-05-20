@@ -28,7 +28,10 @@ class Calendar extends HTMLElement {
     }
 
 
-    /* This function  */
+    /**
+     * This function updates the calendar dates and header of the current month and year
+     * @param {Date} date 
+    */
     updateCalendar(date) {
         const monthYearHeading = this.querySelector('.month-year');
         const datesContainer = this.querySelector('.dates');

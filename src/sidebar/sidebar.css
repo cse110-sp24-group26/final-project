@@ -12,6 +12,8 @@ m-toolbar {
 	text-align: center;
 }
 
+/* Calendar Styling */
+
 m-calendar {
     text-align: center;
     min-height: 15rem;
