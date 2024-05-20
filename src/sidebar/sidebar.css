@@ -20,6 +20,36 @@ m-calendar {
     border: solid 1px black;
 }
 
+#prev,
+#next {
+  width: 20px;
+  height: 20px;
+  position: relative;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.calendar header {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.days {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    justify-content: space-around;
+}
+
+.dates {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    list-style: none;
+    padding: 0;
+}
+
 m-tags {
     border: solid 1px black;
 	text-align: center;
