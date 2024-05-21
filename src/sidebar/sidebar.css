@@ -30,12 +30,13 @@ m-calendar {
   border: none;
   background: transparent;
   cursor: pointer;
+  
 }
 
 .calendar header {
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-between;
 }
 
 .days {
@@ -51,6 +52,12 @@ m-calendar {
     list-style: none;
     padding: 0;
 }
+
+.inactive {
+    color: lightgray;
+}
+
+/* End of calendar styling */
 
 m-tags {
     border: solid 1px black;

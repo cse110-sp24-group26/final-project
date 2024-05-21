@@ -1,5 +1,7 @@
 class Calendar extends HTMLElement {
     connectedCallback() {
+        
+        // Sets up calendar skeleton
         this.innerHTML = `
             <div class="calendar">
                 <header>
@@ -24,33 +26,85 @@ class Calendar extends HTMLElement {
             </div>
         `;
 
-        this.updateCalendar(new Date());
-    }
-
-
-    /**
-     * This function updates the calendar dates and header of the current month and year
-     * @param {Date} date - Newly generated date when app is opened
-    */
-    updateCalendar(date) {
-        const monthYearHeading = this.querySelector('.month-year');
+        const header = this.querySelector('.month-year');
         const datesContainer = this.querySelector('.dates');
+        const navs = document.querySelectorAll('#prev, #next');
 
-        datesContainer.innerHTML = '';
+        const months = [
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December",
+        ];
 
-        const month = date.getMonth();
-        const year = date.getFullYear();
-        monthYearHeading.textContent = `${date.toLocaleString('default', { month: 'long' })} ${year}`;
-        const firstDay = new Date(year, month, 1).getDay();
-        const lastDay = new Date(year, month + 1, 0).getDate();
+        let date = new Date();
+        let month = date.getMonth();
+        let year = date.getFullYear();
 
-        for (let i = 0; i < firstDay; i++) {
-            datesContainer.innerHTML += `<li class="date empty"></li>`;
+        function renderCalendar() {
+            // Figures out which dates of previous, current, and next month to display
+            const start = new Date(year, month, 1).getDay();
+            const endDate = new Date(year, month + 1, 0).getDate();
+            const end = new Date(year, month, endDate).getDay();
+            const endDatePrev = new Date(year, month, 0).getDate();
+
+            let datesHtml = '';
+
+            // Adds dates
+            for (let i = start; i > 0; i--) {
+                datesHtml += `<li class="inactive">${endDatePrev - i + 1}</li>`;
+            }
+
+            for (let i = 1; i <= endDate; i++) {
+                let className =
+                    i === date.getDate() &&
+                        month === new Date().getMonth() &&
+                        year === new Date().getFullYear()
+                        ? ' class="today"'
+                        : "";
+                datesHtml += `<li${className}>${i}</li>`;
+            }
+
+            for (let i = end; i < 6; i++) {
+                datesHtml += `<li class="inactive">${i - end + 1}</li>`;
+            }
+
+            datesContainer.innerHTML = datesHtml;
+            header.textContent = `${months[month]} ${year}`;
         }
 
-        for (let i = 1; i <= lastDay; i++) {
-            datesContainer.innerHTML += `<li class="date">${i}</li>`;
-        }
+        // Adds next and prev click functionality to render next or prev month
+        navs.forEach((nav) => {
+            nav.addEventListener("click", (e) => {
+                const btnId = e.target.id;
+
+                if (btnId === "prev" && month === 0) {
+                    year--;
+                    month = 11;
+                } else if (btnId === "next" && month === 11) {
+                    year++;
+                    month = 0;
+                } else {
+                    month = btnId === "next" ? month + 1 : month - 1;
+                }
+
+                date = new Date(year, month, new Date().getDate());
+                year = date.getFullYear();
+                month = date.getMonth();
+
+                renderCalendar();
+            });
+        });
+
+        renderCalendar();
     }
 }
 
