@@ -30,7 +30,7 @@ class Calendar extends HTMLElement {
 
     /**
      * This function updates the calendar dates and header of the current month and year
-     * @param {Date} date 
+     * @param {Date} date - Newly generated date when app is opened
     */
     updateCalendar(date) {
         const monthYearHeading = this.querySelector('.month-year');
