@@ -12,7 +12,25 @@ class Tags extends HTMLElement {
         const container = document.createElement('div');
         container.setAttribute('class', 'tag-container');
 
+       // -------------------
+	   const tagNames = [
+		{ display: 'HTML', css: 'html' },
+		{ display: 'CSS', css: 'css' },
+		{ display: 'JavaScript', css: 'javascript' },
+		{ display: 'C++', css: 'cpp' },
+		{ display: 'Java', css: 'java' },
+		{ display: 'Python', css: 'python' }
+		];
 
+		tagNames.forEach(tag => {
+			const tagElement = document.createElement('tag-element');
+			tagElement.setAttribute('tag-name', tag.css);
+			tagElement.textContent = tag.display;
+			container.appendChild(tagElement);
+		});
+        // -------------------
+
+        /** 
         //creating the tags(buttons) and adding them to the container
         const tagCount = parseInt(this.getAttribute('count'))|| 6;
         for(let i = 0; i < tagCount; i++){
@@ -23,6 +41,7 @@ class Tags extends HTMLElement {
             //tagElement.addEventListener('click', this.toggleState.bind(this));
             container.appendChild(tagElement);
         }
+        */
 
         //adding container to shadow root
         this.shadowRoot.append(container);
@@ -52,8 +71,15 @@ class Tag extends HTMLElement{
         this.attachShadow({mode:'open'}); 
         const button = document.createElement('button');
 
+
+        // -----
+        button.textContent = this.textContent;
+        // -------
+        
+        /**
         //temp tag text content
         button.textContent = `Tag`;
+        */
 
 
         //adding click functionality => on click, calls toggleState()
@@ -70,14 +96,6 @@ class Tag extends HTMLElement{
         //style content (TO BE IMPLEMENTED LATER) 
         const style = document.createElement('style');
         style.textContent = `
-            .inactive {
-                justify-content: flex-start;
-                color: red;
-            }
-            .active {
-                justify-content: flex-end;
-                color: green;
-            }
             button {
                 font-family: 'Cambria', sans-serif;
                 padding: 0.3125rem 0.625rem; /* 5px 10px */
@@ -89,6 +107,26 @@ class Tag extends HTMLElement{
             button:hover{
                 background-color: #bbb;
             }
+
+			/** revise coding style */ 
+			/** hex values might change for c++, java, and/or python later (preference) */ 
+			button.inactive.css { background-color: #6dc0ff; }
+            		button.active.css { background-color: #3baaff; }
+
+			button.inactive.html { background-color: #ff9b72; }
+			button.active.html { background-color: #eb8156; }
+
+			button.inactive.javascript { background-color: #ffd666; }
+			button.active.javascript { background-color: #ffc37d; }
+			
+			button.inactive.cpp { background-color: #c192ff; }
+			button.active.cpp { background-color: #8b68b8; }
+			
+			button.inactive.python { background-color: #718cc0; }
+			button.active.python { background-color: #45597e; }
+
+			button.inactive.java { background-color: #ff593a; }
+			button.active.java { background-color: #c85844; } 
         `;
         this.shadowRoot.appendChild(style);
 
@@ -96,6 +134,12 @@ class Tag extends HTMLElement{
         //(false == inactive) (true == active)
         this.isActive = false;
         this.setLocationClass();
+
+        // -----
+        const tagName = this.getAttribute('tag-name');
+        button.classList.add(tagName);
+        button.classList.add('inactive');
+        // -------
     }
 
     toggleState(){
@@ -110,6 +154,10 @@ class Tag extends HTMLElement{
         //enables updating button class updating
         const shadow = this.shadowRoot;
         const button = shadow.querySelector('button');
+
+        // -----
+        const tagName = this.getAttribute('tag-name');
+        // -----
 
         if(this.isActive === false){
             this.classList.add('inactive');
