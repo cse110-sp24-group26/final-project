@@ -1,0 +1,32 @@
+:root {
+	font-size: 20px;
+}
+
+body {
+	--background: #ffffff;
+	--text: #000000;
+	--accent: #ffffff;
+
+	--tag1: #ffffff;
+	--tag2: #ffffff;
+	--tag3: #ffffff;
+	--tag4: #ffffff;
+	--tag5: #ffffff;
+
+	--heading-font: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+	--font: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+	--monospaced-font: Consolas;
+
+	font-family: var(--font);
+	margin: 0px;
+}
+
+
+h1 {
+	font: var(--heading-font);
+}
+
+h2 {
+	font: var(--heading-font);
+}
+

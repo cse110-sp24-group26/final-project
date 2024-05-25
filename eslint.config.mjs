@@ -11,7 +11,7 @@ export default [
     ...pluginJs.configs.recommended,
     rules: {
       ...pluginJs.configs.recommended.rules,
-      "no-undef": "error" // Treat undefined variables as errors
+      "no-unused-vars": "off"
     }
   }
 ];
