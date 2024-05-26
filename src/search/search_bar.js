@@ -8,7 +8,7 @@ class SearchBar extends HTMLElement {
     connectedCallback() {
         this.innerHTML = `
             <div class="select-container">
-                <input type="text" id="search-placeholder" placeholder="Search" readonly />
+                <input type="text" id="search-placeholder" placeholder="Search Workbook..." readonly />
                 <div id="expandable-section" class="hidden">
                     <input type="text" id="expandable-input" placeholder="Type to search..." />
                     <select id="expandable-select" size="5">
@@ -30,6 +30,8 @@ class SearchBar extends HTMLElement {
         placeholderInput.addEventListener('click', () => {
             placeholderInput.classList.add('hidden');
             expandableSection.classList.remove('hidden');
+            expandableInput.style.fontSize = '24px';
+            expandableSection.style.fontSize = '24px';
             expandableInput.focus();
         });
 
