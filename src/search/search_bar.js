@@ -12,11 +12,6 @@ class SearchBar extends HTMLElement {
                 <div id="expandable-section" class="hidden">
                     <input type="text" id="expandable-input" placeholder="Type to search..." />
                     <select id="expandable-select" size="5">
-                        <option value="option1">Option 1</option>
-                        <option value="option2">Option 2</option>
-                        <option value="option3">Option 3</option>
-                        <option value="option4">Option 4</option>
-                        <option value="option5">Option 5</option>
                     </select>
                 </div>
             </div>
@@ -59,6 +54,20 @@ class SearchBar extends HTMLElement {
                     expandableSection.classList.add('hidden');
                 }
             }, 100);
+        });
+
+        expandableInput.addEventListener('change', function(event){
+            const inputValue = event.target.value;
+            searchQuery(inputValue, (results) => {
+                console.log("Search results:", results);
+                expandableSelect.innerHTML = '';
+                results.forEach(([date, content]) => {
+                    const option = document.createElement('option');
+                    option.value = date;
+                    option.textContent = `Date: ${date} - Content: ${content.substring(0, 30)}...`;
+                    expandableSelect.appendChild(option);
+                });
+            });
         });
 
         expandableSelect.addEventListener('blur', () => {
