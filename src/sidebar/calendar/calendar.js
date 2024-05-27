@@ -1,6 +1,6 @@
 class Calendar extends HTMLElement {
     connectedCallback() {
-        
+
         // Sets up calendar skeleton, now with dropdowns for year/month
         this.innerHTML = `
             <div class="calendar">
@@ -29,49 +29,82 @@ class Calendar extends HTMLElement {
             </div>
         `;
 
+        //declaring const references to DOM objects
         const header = this.querySelector('.month-year');
         const datesContainer = this.querySelector('.dates');
         const navs = document.querySelectorAll('#prev, #next');
         const monthSelect = this.querySelector('#month')
         const yearSelect = this.querySelector('#year')
 
+        //declaring "global" vars that are used often
+        let date = new Date();
+        let month = date.getMonth();
+        let year = date.getFullYear();
+        let day = date.getDay();
 
-        const months = [
-            "January",
-            "February",
-            "March",
-            "April",
-            "May",
-            "June",
-            "July",
-            "August",
-            "September",
-            "October",
-            "November",
-            "December",
-        ];
+        //initialize current date to open on page load (Maybe we want a different functionality?) (Good for now, though)
+        date = new Date(year, month, new Date().getDate());
+        year = date.getFullYear();
+        month = date.getMonth();
 
-        //populate months dropdown with months
-        for (let i = 0; i < 12; i++) { 
+        populateDropdown();
+
+        enableMonthArrows();
+
+        renderCalendar();
+
+        //===========================================Functions Definitions Below========================================================
+
+//----------------------------------------------------------------------------------------------------populateDropdown()
+        //Adds dropdown functionality
+        function populateDropdown() {
+            const months = [
+                "January",
+                "February",
+                "March",
+                "April",
+                "May",
+                "June",
+                "July",
+                "August",
+                "September",
+                "October",
+                "November",
+                "December",
+            ];
+
+            //populate months
+            for (let i = 0; i < 12; i++) { 
                 let curMonth = document.createElement("option");
                 curMonth.setAttribute("value", i);
                 curMonth.textContent = `${months[i]}`;
                 monthSelect.append(curMonth);
             }
 
-        let date = new Date();
-        let month = date.getMonth();
-        let year = date.getFullYear();
-
-        //populate years 
-        for (let j = -100; j < 100; j++)
-            {
+            //populate years 
+            for (let j = -5; j < 5; j++) {
                 let curYear = document.createElement("option");
                 curYear.setAttribute("value", year+j);
                 curYear.textContent = `${year+j}`;
                 yearSelect.append(curYear);
             }
 
+            //update calendar if changed from dropdown
+            monthSelect.addEventListener("change", (e) => {
+                month = parseInt(e.target.value);
+                renderCalendar();
+            });
+            yearSelect.addEventListener("change", (e) => {
+                year = parseInt(e.target.value);
+                renderCalendar();
+            });
+
+            monthSelect.value = month;  //update month and year if changed with arrows
+            yearSelect.value = year;
+        }
+
+//-----------------------------------------------------------------------------------------------renderCalendar()
+        //Renders the days in the calendar, including managing the selected day
         function renderCalendar() {
             // Figures out which dates of previous, current, and next month to display
             const start = new Date(year, month, 1).getDay();
@@ -82,100 +115,79 @@ class Calendar extends HTMLElement {
             let datesHtml = '';
 
             // Adds dates
-            for (let i = start; i > 0; i--) {
+            for (let i = start; i > 0; i--) { //dates not in month
                 datesHtml += `<li class="inactive">${endDatePrev - i + 1}</li>`;
             }
 
-            for (let i = 1; i <= endDate; i++) {
+            for (let i = 1; i <= endDate; i++) { //dates in month
                 let className =
                     i === date.getDate() &&
-                        month === new Date().getMonth() &&
-                        year === new Date().getFullYear()
-                        ? ' class="today"'
-                        : "";
-                datesHtml += `<li${className}><button>${i}</button></li>`;
-            }
-
-            for (let i = end; i < 6; i++) {
+                    month === new Date().getMonth() &&
+                    year === new Date().getFullYear()
+                    ? ' class="today"'          //identifies which date is "today"
+                    : "";
+                    
+                datesHtml += `<li${className} ><button id=${i} >${i}</button></li>`;//Each li has a button inside of it
+            }                                                                       //Li might be today
+                                                                                    //button contains id of day and text of day
+            for (let i = end; i < 6; i++) { //dates not in month
                 datesHtml += `<li class="inactive">${i - end + 1}</li>`;
             }
 
-            datesContainer.innerHTML = datesHtml;
-            monthSelect.value = month;  //update month and year if changed with arrows
-            yearSelect.value = year;
+            datesContainer.innerHTML = datesHtml;   //place dates in the dom
 
-            
-                var selectedState;  //current PROBLEM: This needs to be "remembered". 
-                                    //Right now, changing the calendar "page" causes 
-                                    //the selected date to be lost
-
-                                    //I am considering storing a js Date object as well/instead*,
-                                    //and everytime we load a new calendar page, we check if the currently selected
-                                    //state is inside of it. If so, we update the corresponding li button to be in class: 'selected'
-
-                                    // (*) I am using a element variable to store a reference to the element that is currently selected, 
-                                    //so that I can deselect it without having to search for it. (I am not sure if this is actually that much more efficient,
-                                    //given that the search is bounded by 31)
-
-                                    //If I store just the Date, I can use that to select the corresponding li button if the date exists in the current month. 
-                                    //This means that I won't have to keep track of any DOM elements, because all li buttons already default to not selected upon page load.
-
-                                    //Also, we need to call whatever function is needed to relay the fact that a date was clicked to the rest of the app.
-
-                                    //To clarify my understanding of the functionality of clicking: A new tab will be opened only when 
-                                    //the user clicks on a date, and not when the user changes the calendar page.
-                                    //i.e., if the user opens july 5, but the goes to look at the month of june, but chooses not to click any date, 
-                                    //july 5 should still be open, and it should still appear as 'selected' on the calendar
-            
-                var clickableDates = document.querySelectorAll("li:has(button)");
-                console.log(clickableDates)
-                clickableDates.forEach((clickableDate) => {
-                    clickableDate.addEventListener("click", (e) => {
-                        if (selectedState) {
-                            selectedState.className = "";
-                        }
-                        console.log(e.target);
-                        e.target.setAttribute("class", "selected");
-                        selectedState = e.target;
-                        console.log(e.target.innerHTML);
-                    });
+            //Make buttons clickable
+            var clickableDates = document.querySelectorAll("li:has(button)");
+            clickableDates.forEach((clickableDate) => {
+                clickableDate.addEventListener("click", (e) => {
+                    changeSelectedDate(e);
                 });
+            });
+
+            renderSelectedDate();
+
+            //Store current date object in local memory, and publish --insert_correct_event_name_here-- event
+            function changeSelectedDate(e) {
+                const dateToStore = {"day" : parseInt(e.target.innerHTML), "month" : month, "year" : year};
+                localStorage.setItem("selectedDayMonthYear", JSON.stringify(dateToStore));
+                //publish event here
+                renderCalendar();             
+            }
+
+            //Set the selected date's DOM properties so that it gets displayed by the css
+            function renderSelectedDate() {
+                var selectedDate = JSON.parse(localStorage.getItem("selectedDayMonthYear"));  
+                if (selectedDate.year == year && selectedDate.month == month) { //if selected date is in this month
+                    let stateToSelect = document.getElementById(`${selectedDate.day}`); 
+                    stateToSelect.setAttribute("class", "selected"); //set the day of that button to be "selected"
+                }
+            }
         }
 
+//-----------------------------------------------------------------------------------------------enableMonthArrows()
         // Adds next and prev click functionality to render next or prev month
-        navs.forEach((nav) => {
-            nav.addEventListener("click", (e) => {
-                const btnId = e.target.id;
+        function enableMonthArrows() {
+            navs.forEach((nav) => {
+                nav.addEventListener("click", (e) => {
+                    const btnId = e.target.id;
 
-                if (btnId === "prev" && month === 0) {
-                    year--;
-                    month = 11;
-                } else if (btnId === "next" && month === 11) {
-                    year++;
-                    month = 0;
-                } else {
-                    month = btnId === "next" ? month + 1 : month - 1;
-                }
+                    if (btnId === "prev" && month === 0) {
+                        year--;
+                        month = 11;
+                    } else if (btnId === "next" && month === 11) {
+                        year++;
+                        month = 0;
+                    } else {
+                        month = btnId === "next" ? month + 1 : month - 1;
+                    }
 
-                date = new Date(year, month, new Date().getDate());
-                year = date.getFullYear();
-                month = date.getMonth();
+                    monthSelect.value = month;  //update month and year if changed with arrows
+                    yearSelect.value = year;
 
-                renderCalendar();
+                    renderCalendar();
+                });
             });
-        });
-
-        //update calendar if changed from dropdown
-        monthSelect.addEventListener("change", (e) => {
-            month = parseInt(e.target.value);
-            renderCalendar();
-        });
-        yearSelect.addEventListener("change", (e) => {
-            year = parseInt(e.target.value);
-            renderCalendar();
-        });
-        
-        renderCalendar();
+        }   
     }
 }
 
