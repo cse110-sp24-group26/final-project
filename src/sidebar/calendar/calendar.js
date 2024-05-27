@@ -39,10 +39,10 @@ class Calendar extends HTMLElement {
         const yearSelect = this.querySelector('#year')
 
         //declaring "global" vars that are used often (initialized to today)
-        let date = new Date();
-        let month = date.getMonth();
-        let year = date.getFullYear();
-        let day = date.getDay();
+        let todayDate = new Date();
+        let month = todayDate.getMonth();
+        let year = todayDate.getFullYear();
+        let selectedDate = new Date();//This stores the date that is currently highlighted/open in the editor
 
         populateDropdown();
 
@@ -50,7 +50,11 @@ class Calendar extends HTMLElement {
 
         renderCalendar();
 
-        subscribeOpenDateEvent(openDate);//I expect to recieve a JavaScript Date Object
+        subscribeOpenDateEvent(openDate);//I expect to recieve a JavaScript Date Object.
+
+        openDate(new Date());   //Opens today's date on startup. 
+                                //NOTE: We may need to publish an open_date event here to help the other components initialize to the same date.
+        //openDate(new Date("10-10-2020"));//Testing purposes
 
 //=====================================================Functions Definitions Below========================================================
 
@@ -117,14 +121,14 @@ class Calendar extends HTMLElement {
 
             for (let i = 1; i <= endDate; i++) { //dates in month
                 let className =
-                    i === date.getDate() &&
+                    i === todayDate.getDate() &&
                     month === new Date().getMonth() &&
                     year === new Date().getFullYear()
                     ? ' class="today"'          //identifies which date is "today"
                     : "";
                     
                 datesHtml += `<li${className} ><button id=${i} >${i}</button></li>`;//Each li has a button inside of it
-            }                                                                       //Li might be today
+            }                                                                       //Li potentially has class: "today"
                                                                                     //button contains id of day and text of day
             for (let i = end; i < 6; i++) { //dates not in month
                 datesHtml += `<li class="inactive">${i - end + 1}</li>`;
@@ -145,20 +149,20 @@ class Calendar extends HTMLElement {
 
             renderSelectedDate();
 
-            //Store current date object in local memory, and publish --insert_correct_event_name_here-- event
+            //Update current date object, and publish open_date event
             function changeSelectedDate(newDay) {
-                const dateToStore = new Date(year, month, parseInt(newDay));
-                localStorage.setItem("selectedDate", dateToStore);
-                publishOpenDateEvent(dateToStore);//publish open date event with JavaScript Date Object
+                selectedDate.setFullYear(year);
+                selectedDate.setMonth(month)
+                selectedDate.setDate(parseInt(newDay));
+                publishOpenDateEvent(selectedDate);//publish open date event with JavaScript Date Object
                 renderCalendar();             
             }
 
             //Set the selected date's DOM properties so that it gets displayed by the css
             function renderSelectedDate() {
-                let selectedDate = new Date(localStorage.getItem("selectedDate")); //using new to solve issues with storing date objects in local storage 
                 if (selectedDate.getFullYear() == year && selectedDate.getMonth() == month) { //if selected date is in this month
-                    let stateToSelect = document.getElementById(`${selectedDate.getDate()}`); 
-                    stateToSelect.setAttribute("class", "selected"); //set the day of that button to be "selected"
+                    let buttonToSelect = document.getElementById(`${selectedDate.getDate()}`); 
+                    buttonToSelect.setAttribute("class", "selected"); //set the day of that button to be "selected"
                 }
             }
         }
@@ -185,18 +189,15 @@ class Calendar extends HTMLElement {
             });
         }  
         
+//-----------------------------------------------------------------------------------------------------------------------openDate()
+        //Opens a given date. This is the callback function for subscribeOpenDateEvent()
         function openDate(dateToOpen) {
-            day = dateToOpen.getDate();
             month = dateToOpen.getMonth();
             year = dateToOpen.getFullYear();
-            localStorage.setItem("selectedDate", dateToOpen);
-
+            selectedDate = dateToOpen;
             renderCalendar();
-        }
-    }
-
-
+        }//this could be a lambda (or whatever js calls it) inside the subscribeOpenDateEvent function, but I chose to leave it out
+    }    //so that it can be used in other cases, whenever we want to open a specific date.
 }
-
 
 customElements.define('m-calendar', Calendar)
