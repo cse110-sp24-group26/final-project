@@ -1,3 +1,5 @@
+import {publishOpenDateEvent, subscribeOpenDateEvent} from '/src/state/events.js'   //I'm not sure if this is the "proper" way to do this
+
 class Calendar extends HTMLElement {
     connectedCallback() {
 
@@ -36,16 +38,11 @@ class Calendar extends HTMLElement {
         const monthSelect = this.querySelector('#month')
         const yearSelect = this.querySelector('#year')
 
-        //declaring "global" vars that are used often
+        //declaring "global" vars that are used often (initialized to today)
         let date = new Date();
         let month = date.getMonth();
         let year = date.getFullYear();
         let day = date.getDay();
-
-        //initialize current date to open on page load (Maybe we want a different functionality?) (Good for now, though)
-        date = new Date(year, month, new Date().getDate());
-        year = date.getFullYear();
-        month = date.getMonth();
 
         populateDropdown();
 
@@ -53,9 +50,11 @@ class Calendar extends HTMLElement {
 
         renderCalendar();
 
-        //===========================================Functions Definitions Below========================================================
+        subscribeOpenDateEvent(openDate);//I expect to recieve a JavaScript Date Object
 
-//----------------------------------------------------------------------------------------------------populateDropdown()
+//=====================================================Functions Definitions Below========================================================
+
+//--------------------------------------------------------------------------------------------------------------------populateDropdown()
         //Adds dropdown functionality
         function populateDropdown() {
             const months = [
@@ -98,12 +97,9 @@ class Calendar extends HTMLElement {
                 year = parseInt(e.target.value);
                 renderCalendar();
             });
-
-            monthSelect.value = month;  //update month and year if changed with arrows
-            yearSelect.value = year;
         }
 
-//-----------------------------------------------------------------------------------------------renderCalendar()
+//---------------------------------------------------------------------------------------------------------------------------renderCalendar()
         //Renders the days in the calendar, including managing the selected day
         function renderCalendar() {
             // Figures out which dates of previous, current, and next month to display
@@ -136,59 +132,71 @@ class Calendar extends HTMLElement {
 
             datesContainer.innerHTML = datesHtml;   //place dates in the dom
 
+            monthSelect.value = month;  //set month and year in dropdown
+            yearSelect.value = year;
+
             //Make buttons clickable
             var clickableDates = document.querySelectorAll("li:has(button)");
             clickableDates.forEach((clickableDate) => {
                 clickableDate.addEventListener("click", (e) => {
-                    changeSelectedDate(e);
+                    changeSelectedDate(e.target.innerHTML);
                 });
             });
 
             renderSelectedDate();
 
             //Store current date object in local memory, and publish --insert_correct_event_name_here-- event
-            function changeSelectedDate(e) {
-                const dateToStore = {"day" : parseInt(e.target.innerHTML), "month" : month, "year" : year};
-                localStorage.setItem("selectedDayMonthYear", JSON.stringify(dateToStore));
-                //publish event here
+            function changeSelectedDate(newDay) {
+                const dateToStore = new Date(year, month, parseInt(newDay));
+                localStorage.setItem("selectedDate", dateToStore);
+                publishOpenDateEvent(dateToStore);//publish open date event with JavaScript Date Object
                 renderCalendar();             
             }
 
             //Set the selected date's DOM properties so that it gets displayed by the css
             function renderSelectedDate() {
-                var selectedDate = JSON.parse(localStorage.getItem("selectedDayMonthYear"));  
-                if (selectedDate.year == year && selectedDate.month == month) { //if selected date is in this month
-                    let stateToSelect = document.getElementById(`${selectedDate.day}`); 
+                let selectedDate = new Date(localStorage.getItem("selectedDate")); //using new to solve issues with storing date objects in local storage 
+                if (selectedDate.getFullYear() == year && selectedDate.getMonth() == month) { //if selected date is in this month
+                    let stateToSelect = document.getElementById(`${selectedDate.getDate()}`); 
                     stateToSelect.setAttribute("class", "selected"); //set the day of that button to be "selected"
                 }
             }
         }
 
-//-----------------------------------------------------------------------------------------------enableMonthArrows()
+//------------------------------------------------------------------------------------------------------------------------enableMonthArrows()
         // Adds next and prev click functionality to render next or prev month
         function enableMonthArrows() {
             navs.forEach((nav) => {
                 nav.addEventListener("click", (e) => {
                     const btnId = e.target.id;
 
-                    if (btnId === "prev" && month === 0) {
+                    if (btnId === "prev" && month === 0) {//edge case decrease month in jan
                         year--;
                         month = 11;
-                    } else if (btnId === "next" && month === 11) {
+                    } else if (btnId === "next" && month === 11) {//edge case increase month in dec
                         year++;
                         month = 0;
                     } else {
-                        month = btnId === "next" ? month + 1 : month - 1;
+                        month = btnId === "next" ? month + 1 : month - 1;//non-edge case
                     }
-
-                    monthSelect.value = month;  //update month and year if changed with arrows
-                    yearSelect.value = year;
 
                     renderCalendar();
                 });
             });
-        }   
+        }  
+        
+        function openDate(dateToOpen) {
+            day = dateToOpen.getDate();
+            month = dateToOpen.getMonth();
+            year = dateToOpen.getFullYear();
+            localStorage.setItem("selectedDate", dateToOpen);
+
+            renderCalendar();
+        }
     }
+
+
 }
+
 
 customElements.define('m-calendar', Calendar)
