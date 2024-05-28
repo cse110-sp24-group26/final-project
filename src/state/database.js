@@ -14,12 +14,16 @@ export function loadUserThemePreference() {
 /* Saves whether the user prefers dark or light theme
  *
  * @param theme either the string 'light' or the string 'dark'
+ * @return none
  */
 export function saveUserThemePreference(theme) {
 	localStorage.setItem("user-theme", theme);
 }
 
-// last opened tabs
+/** Loads last opened tabs
+ *
+ * @return loads the most recently opened tabs
+ */
 export function loadUserTabs(callback) {
 	const tabs = localStorage.getItem("user-tabs");
 	if (tabs === null) {
@@ -32,7 +36,7 @@ export function loadUserTabs(callback) {
 
 /** Saves the currently opened tabs to local storage
  *
- * @param tabs the list of dates denoting the currently opened tabs. It is assumed that the first tab in the list is the currently opened one, if one exists
+ * @param tabs the list of dates denoting the currently opened tabs.
  * @return none
  */
 export function saveUserTabs(tabs) {
@@ -109,7 +113,6 @@ export function loadEntry(date, callback) {
 	const entryStore = transaction.objectStore("entries");
 	const request = entryStore.get(date);
 	request.onerror = () => {
-		// record doesn't exist
 		console.error("Database transaction failed");
 	};
 
