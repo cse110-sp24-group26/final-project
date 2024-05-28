@@ -3,17 +3,27 @@
  * In addition, it serves certain user session/preference data 
  */
 
-/* local storage */
+/** Loads whether the user prefers dark or light theme 
+ *
+ * @return the preferred user theme: either the string 'dark' or the string 'light'
+ */
 export function loadUserThemePreference() {
 	localStorage.getItem("user-theme") || 'light';
 }
 
-/* theme = 'light' | 'dark' */
+/* Saves whether the user prefers dark or light theme
+ *
+ * @param theme either the string 'light' or the string 'dark'
+ * @return none
+ */
 export function saveUserThemePreference(theme) {
 	localStorage.setItem("user-theme", theme);
 }
 
-// last opened tabs
+/** Loads last opened tabs
+ *
+ * @return loads the most recently opened tabs
+ */
 export function loadUserTabs(callback) {
 	const tabs = localStorage.getItem("user-tabs");
 	if (tabs === null) {
@@ -24,12 +34,19 @@ export function loadUserTabs(callback) {
 	}
 }
 
-// list of strings of dates 
+/** Saves the currently opened tabs to local storage
+ *
+ * @param tabs the list of dates denoting the currently opened tabs.
+ * @return none
+ */
 export function saveUserTabs(tabs) {
 	localStorage.setItem("user-tabs", JSON.stringify(tabs));
 }
 
-// list of 6 strings
+/** Loads the name of the user tags from local storage, or a default value
+ *
+ * @return a list of 6 strings, denoting the name of the 6 tags 
+ */
 export function loadUserTags(callback) {
 	const tabs = localStorage.getItem("user-tags");
 	if (tabs === null) {
@@ -40,14 +57,19 @@ export function loadUserTags(callback) {
 	}
 }
 
+/** Saves the user tag names to local storage 
+ * @param tags a list of 6 strings, denoting the names of all of the different tags
+ * @return none
+ */
 export function saveUserTags(tags) {
 	localStorage.setItem("user-tags", JSON.stringify(tags));
 }
 
 /* actual database functions */
 let db = null;
-//
-// exported only for some testing code
+/** Only to be used during testing 
+ *
+ */
 export function initDB() {
 	return new Promise((resolve, reject) => {
 		const request = window.indexedDB.open("main_db", 1);
@@ -91,7 +113,6 @@ export function loadEntry(date, callback) {
 	const entryStore = transaction.objectStore("entries");
 	const request = entryStore.get(date);
 	request.onerror = () => {
-		// record doesn't exist
 		console.error("Database transaction failed");
 	};
 
