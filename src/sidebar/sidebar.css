@@ -172,3 +172,48 @@ m-tags {
 	text-align: center;
     min-height: 5rem;
 }
+
+m-tags div.tags-flex {
+	display: flex;
+	gap: 1rem;
+	justify-content: center;
+	flex-wrap: wrap;
+}
+
+m-tag button {
+	width: 100px;
+	border-radius: 25px;
+	padding: 10px;
+}
+
+m-tags .tag-inactive {
+	opacity: 0.4;
+}
+
+m-tags .tag-active {
+	opacity: 1.0;	
+}
+
+#tag-0 button {
+	background-color: var(--tag0);
+}
+
+#tag-1 button {
+	background-color: var(--tag1);
+}
+
+#tag-2 button {
+	background-color: var(--tag2);
+}
+
+#tag-3 button {
+	background-color: var(--tag3);
+}
+
+#tag-4 button {
+	background-color: var(--tag4);
+}
+
+#tag-5 button {
+	background-color: var(--tag5);
+}

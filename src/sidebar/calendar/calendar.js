@@ -50,7 +50,7 @@ class Calendar extends HTMLElement {
 
         renderCalendar();
 
-        subscribeOpenDateEvent(openDate);//I expect to recieve a JavaScript Date Object.
+        subscribeOpenDateEvent(this, openDate);//I expect to recieve a JavaScript Date Object.
 
         openDate(new Date());   //Opens today's date on startup. 
                                 //NOTE: We may need to publish an open_date event here to help the other components initialize to the same date.
@@ -194,7 +194,7 @@ class Calendar extends HTMLElement {
         function openDate(dateToOpen) {
             month = dateToOpen.getMonth();
             year = dateToOpen.getFullYear();
-            selectedDate = dateToOpen;
+            selectedDate = new Date(dateToOpen.getTime());
             renderCalendar();
         }//this could be a lambda (or whatever js calls it) inside the subscribeOpenDateEvent function, but I chose to leave it out
     }    //so that it can be used in other cases, whenever we want to open a specific date.
