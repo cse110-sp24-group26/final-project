@@ -1,4 +1,4 @@
-import {publishOpenDateEvent, subscribeOpenDateEvent} from '/src/state/events.js'   //I'm not sure if this is the "proper" way to do this
+import {publishOpenDateEvent, subscribeOpenDateEvent} from '../../state/events.js'   
 
 class Calendar extends HTMLElement {
     connectedCallback() {

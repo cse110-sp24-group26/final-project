@@ -3,7 +3,8 @@ class MainEditor extends HTMLElement {
 	connectedCallback() {
 		this.innerHTML = `
 			<p id="line-num">1</p>
-			<iframe id="text-editor"></iframe>
+			<div contenteditable="true" id="text-editor">
+			</div>
 		`;
 
 		this.style.display = "flex"
