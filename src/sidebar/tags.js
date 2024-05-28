@@ -28,7 +28,7 @@ class Tag extends HTMLElement {
         });
 
         button.addEventListener('click', () => {
-			if (this.className = "tag-inactive") {
+			if (this.className === "tag-inactive") {
 				this.className = "tag-active";
 			}
 			else {
