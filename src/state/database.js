@@ -24,7 +24,7 @@ export function saveUserThemePreference(theme) {
  *
  * @return loads the most recently opened tabs
  */
-export function loadUserTabs(callback) {
+export function loadUserTabs() {
 	const tabs = localStorage.getItem("user-tabs");
 	if (tabs === null) {
 		return [];
@@ -67,6 +67,7 @@ export function saveUserTags(tags) {
 
 /* actual database functions */
 let db = null;
+let db_queue = [];
 /** Only to be used during testing 
  *
  */
@@ -87,6 +88,7 @@ export function initDB() {
 		request.onsuccess = (e) => {
 			db = e.target.result;
 			console.log("Database successfully created");
+			db_queue.forEach((worker) => worker());
 			resolve(undefined);
 		};
 
@@ -103,44 +105,57 @@ window.addEventListener('load', async () => {
 });
 
 /** Loads entry
- * @param date date string (e.g. '2024-11-21')
- * @param callback function that is called with (text_content_string, list of string tags)
+ * @param date date string (e.g. '2024-11-21' where month and day are 0 padded)
+ * @param callback function that is called with (text_content_string, list of string tags indices)
  * @return none
  */
 export function loadEntry(date, callback) {
-	const transaction = db.transaction("entries", "readwrite");
+	// may be called before initialization unfortunately
+	const worker = () => {
+		const transaction = db.transaction("entries", "readwrite");
 
-	const entryStore = transaction.objectStore("entries");
-	const request = entryStore.get(date);
-	request.onerror = () => {
-		console.error("Database transaction failed");
+		const entryStore = transaction.objectStore("entries");
+		const request = entryStore.get(date);
+		request.onerror = () => {
+			console.error("Database transaction failed");
+		};
+
+		request.onsuccess = () => {
+			if (request.result) {
+				callback(request.result.content, request.result.tags);
+			}
+			else {
+				callback("", []);
+			}
+		};
 	};
 
-	request.onsuccess = () => {
-		if (request.result) {
-			callback(request.result.content, request.result.tags);
-		}
-		else {
-			callback("", []);
-		}
-	};
+	if (db) {
+		worker();
+	}
+	else {
+		db_queue.push(worker);
+	}
 }
 
 /** Saves entry
- * @param date date string (e.g. '2024-11-21')
- * @param content content string
- * @param tags list of string
+ * @param date date string (e.g. '2024-11-21' where month and day are 0 padded)
+ * @param content content string (or undefined if should be left as is)
+ * @param tags list of string (or undefined if should be left as is)
  * @return none
  */
 export function saveEntry(date, content, tags) {
-	const transaction = db.transaction("entries", "readwrite");
+	loadEntry(date, (old_content, old_tags) => {
+		const transaction = db.transaction("entries", "readwrite");
 
-	const entryStore = transaction.objectStore("entries");
-	const request = entryStore.put({date: date, content: content, tags: tags});
-	// no need for callbacks on success
-	request.transaction.onerror = () => {
-		console.error("Database transaction failed");
-	};
+		const entryStore = transaction.objectStore("entries");
+		const request = entryStore.put({date: date, content: content || old_content, tags: tags || old_tags});
+		// no need for callbacks on success
+		request.transaction.onerror = () => {
+			console.error("Database transaction failed");
+		};
+
+	});
 }
 
 

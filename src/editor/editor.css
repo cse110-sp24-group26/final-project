@@ -6,14 +6,16 @@ m-editor {
 }
 
 /* MARK: tab */
-
 m-tab {
 	font-size: 0.75rem;
 	border: solid 1px black;
 }
 
-/* MARK: tab list */
+m-tab.tab-active button {
+	background-color: red;
+}
 
+/* MARK: tab list */
 m-tab-list {
 	display: flex;
 	flex-direction: row;
@@ -41,8 +43,15 @@ m-main-editor {
 	flex-grow: 1;
 }
 
-m-main-editor textarea {
+#text-editor {
 	width: 100%;
 	height: 100%;
 	box-sizing: border-box;
+	border: solid 1px black;
 }
+
+#text-editor:focus {
+	border: solid 1px blue !important;
+	outline: 0px solid transparent;
+}
+
