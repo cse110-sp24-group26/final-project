@@ -59,7 +59,7 @@ export function subscribeTagChangedEvent(callback) {
 /** Permanently registers a callback that is called synchronously whenever a 
  * open date event is published
  *
- * @param callback a function that takes two parameters and will be called whenever the event in question occurs: the first parameter is the date that is to be opened
+ * @param callback a function that takes one parameter and will be called whenever the event in question occurs: the first parameter is the date that is to be opened
  * @return none
  */
 export function subscribeOpenDateEvent(callback) {
