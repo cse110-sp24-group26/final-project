@@ -55,6 +55,8 @@ class Tags extends HTMLElement {
 		}
 
 		saveEntry(dateString(this.currentDate), undefined, activeTags);	
+
+		publishTagChangedEvent(dateString(this.currentDate), activeTags);
 	}
 
 	updateFrom(date) {
