@@ -3,18 +3,22 @@
 Developer Journal
 
 ## Development Process
-1. During team meetings, decide what needs to be worked on and add to team board, then create issues for all of these following step 2
-2. To initiate a feature, first open an issue according to one of several provided templates. If applicable, we make sure to assign the person working on that feature in the issue itself
-3. Create a feature branch for this feature
-4. Develop the feature and test locally
-5. Push the feature and submit a pull request
-5. GitHub actions will ensure that nothing goes wrong in terms of linting and testing
-7. Have a manual review by at least one other person
-8. Merge into staging
-9. Have two other people manually review the staging branch to ensure no unexpected merge conflicts
-10-. Merge into main
-11. GitHub actions will build the documentation and website
-12. Repeat for next issue
+1. During team meetings or on Slack, decide what needs to be worked on in terms of bugs, features, documentation, etc and create issues list
+2. For each issue in the list, open an issue accoridng to one of several provided templates. If applicable make sure to assign the person working on that feature in the issue itself
+3. Create a new branch for the issue from the issue page so that it is automatically linked and make sure to name the branch according to the conventions below 
+4. Add issues to the team board by going to the backlog tab and following the given steps:
+    -  Click Add item near the bottom of the "todo" section
+    - Input "#" to bring up the repositories and select "final-project"
+    - Then search for the brand new issue and select it to add it to the board
+5. Develop on the branch and test locally, make sure to update the issue to "in progress" on team board
+6. Push on the branch and submit a pull request to staging
+7. GitHub actions will ensure that nothing goes wrong in terms of linting and testing
+8. Have a manual review by at least one other person
+9. Merge into staging
+10. Have two other people manually review the staging branch to ensure no unexpected merge conflicts
+11. Merge into main, update the issue to "done" on the team board
+12. GitHub actions will build the documentation and website
+13. Repeat for next issue from step 2 onwards
 
 ## Branching
 There is the main branch which contains the production code. There is also a staging branch, where we ensure that recent merges do not do anything unexpected. Apart from that, all features or other additions to the project are done in short lived feature branches. 
