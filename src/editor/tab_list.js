@@ -175,15 +175,6 @@ class TabList extends HTMLElement {
 
 customElements.define('m-tab-list', TabList);
 
-
-// Add test tab after DOM is fully loaded
-document.addEventListener('DOMContentLoaded', () => {
-    testAddTab();
-});
-
-
-
-
 // Clear all saved tabs from the local storage, can use in console if needed
 window.clearAllSavedTabs = function() {
     const tabList = document.querySelector('m-tab-list');
