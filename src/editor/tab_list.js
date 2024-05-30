@@ -1,4 +1,4 @@
-import {publishOpenDateEvent, subscribeOpenDateEvent} from '/src/state/events.js'
+import {publishOpenDateEvent, subscribeOpenDateEvent} from '../state/events.js'
 import { loadUserTabs, saveUserTabs, loadEntry } from '../state/database.js'
 
 
@@ -36,8 +36,6 @@ class Tab extends HTMLElement {
 
         // Add an event listener to handle tab clicks
         this.shadowRoot.querySelector('.tab-button').addEventListener('click', () => {
-            // Dispatch a custom event 'tab-selected' with the date detail
-            document.dispatchEvent(new CustomEvent('tab-selected', { detail: { date: this.getAttribute('date') } }));
             // Publish the open date event with the selected date
             publishOpenDateEvent(new Date(this.getAttribute('date')));
         });
@@ -75,7 +73,6 @@ class TabList extends HTMLElement {
 
         // Subscribe to the open_date event
         subscribeOpenDateEvent(this, (date) => {
-            console.log("Clicked date:", date);
             this.openDate(date);
         });
     }
@@ -125,10 +122,6 @@ class TabList extends HTMLElement {
             tab.setSelected(isSelected);
         });
 
-
-        localStorage.setItem('selectedTabDate', newDate);
-
-
     }
 
 
@@ -138,9 +131,6 @@ class TabList extends HTMLElement {
         const tabsContainer = this.shadowRoot.querySelector('.tabs');
         tabsContainer.innerHTML = ''; // Clear existing tabs before loading
    
-        const selectedTabDate = localStorage.getItem('selectedTabDate');
-
-
         this.tabs.forEach(date => {
             // Check if a tab for this date already exists
             const existingTab = this.shadowRoot.querySelector(`m-tab[date="${date}"]`);
@@ -152,13 +142,10 @@ class TabList extends HTMLElement {
                 tab.setAttribute('label', label);
                 tabsContainer.prepend(tab);
 
-
-                // Apply the selected state if this tab is the selected one
-                if (date === selectedTabDate) {
-                    tab.setSelected(true);
-                }
             }
         });
+
+		this.openDate(new Date());
     }
    
     // Clear all tabs from the list and local storage
@@ -166,7 +153,6 @@ class TabList extends HTMLElement {
         this.tabs = [];
         saveUserTabs(this.tabs);
         this.shadowRoot.querySelector('.tabs').innerHTML = '';
-        console.log("All tabs cleared");
     }  
 }
 
