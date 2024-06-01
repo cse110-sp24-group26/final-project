@@ -145,7 +145,7 @@ class TabList extends HTMLElement {
             }
         });
 
-		this.openDate(new Date());
+        this.openDate(new Date());
     }
    
     // Clear all tabs from the list and local storage

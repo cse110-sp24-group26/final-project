@@ -13,7 +13,7 @@ m-sidebar {
 }
 
 m-toolbar {
-	text-align: center;
+    text-align: center;
     border-bottom: 1px solid black;
     
 }
@@ -169,51 +169,51 @@ li.today:has(button.selected) {
 m-tags {
     border-top: solid 1px black;
     border-bottom: solid 1px black;
-	text-align: center;
+    text-align: center;
     min-height: 5rem;
 }
 
 m-tags div.tags-flex {
-	display: flex;
-	gap: 1rem;
-	justify-content: center;
-	flex-wrap: wrap;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
 m-tag button {
-	width: 100px;
-	border-radius: 25px;
-	padding: 10px;
+    width: 100px;
+    border-radius: 25px;
+    padding: 10px;
 }
 
 m-tags .tag-inactive {
-	opacity: 0.4;
+    opacity: 0.4;
 }
 
 m-tags .tag-active {
-	opacity: 1.0;	
+    opacity: 1.0;    
 }
 
 #tag-0 button {
-	background-color: var(--tag0);
+    background-color: var(--tag0);
 }
 
 #tag-1 button {
-	background-color: var(--tag1);
+    background-color: var(--tag1);
 }
 
 #tag-2 button {
-	background-color: var(--tag2);
+    background-color: var(--tag2);
 }
 
 #tag-3 button {
-	background-color: var(--tag3);
+    background-color: var(--tag3);
 }
 
 #tag-4 button {
-	background-color: var(--tag4);
+    background-color: var(--tag4);
 }
 
 #tag-5 button {
-	background-color: var(--tag5);
+    background-color: var(--tag5);
 }
