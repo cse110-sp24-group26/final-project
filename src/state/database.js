@@ -47,7 +47,7 @@ export function saveUserTabs(tabs) {
  *
  * @return a list of 6 strings, denoting the name of the 6 tags 
  */
-export function loadUserTags(callback) {
+export function loadUserTags() {
 	const tabs = localStorage.getItem("user-tags");
 	if (tabs === null) {
 		return ["Tag 1", "Tag 2", "Tag 3", "Tag 4", "Tag 5", "Tag 6"];
