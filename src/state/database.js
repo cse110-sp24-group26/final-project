@@ -158,9 +158,18 @@ export function saveEntry(date, content, tags) {
 	});
 }
 
-
+/**
+ * 
+ * @param {Object} entry is a JS Object that has three fields: date, content, and tags
+ * @param {String} query is a String used to search for matches in the entry's date, content, and tags
+ * @returns the entry if the query results in a match or null otherwise
+ */
 function entryMatchesQuery(entry, query) {
-	return "Matches!"
+	if (entry.date.includes(query) || entry.content.includes(query) || entry.tags.includes(query)){
+		console.log(entry)
+		return entry
+	}
+	return null
 }
 
 /** finds search results 
@@ -187,6 +196,7 @@ export function searchQuery(query, callback) {
 
 			cursor.continue();
 		} else {
+			console.log(results);
 			callback(results);						
 		}
 	};

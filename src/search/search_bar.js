@@ -3,9 +3,12 @@
 
 /* QUERIES state/database.js for getting search results */
 /* PUBLISHES open_tab event (via state/events.js) once a search result is selected */
+import { searchQuery } from '../state/database.js';
 
 class SearchBar extends HTMLElement {
     connectedCallback() {
+        //saveEntry('2024-10-11', "Text Content", ["tag 1", "tag 2"]);
+
         this.innerHTML = `
             <div class="select-container">
                 <input type="text" id="search-placeholder" placeholder="Search Workbook..." readonly />
@@ -56,17 +59,22 @@ class SearchBar extends HTMLElement {
             }, 100);
         });
 
-        expandableInput.addEventListener('change', function(event){
+        expandableInput.addEventListener('input', function(event){
             const inputValue = event.target.value;
             searchQuery(inputValue, (results) => {
                 console.log("Search results:", results);
                 expandableSelect.innerHTML = '';
-                results.forEach(([date, content]) => {
-                    const option = document.createElement('option');
-                    option.value = date;
-                    option.textContent = `Date: ${date} - Content: ${content.substring(0, 30)}...`;
-                    expandableSelect.appendChild(option);
-                });
+                try {
+                    results.forEach(({date, content}) => {
+                        const option = document.createElement('option');
+                        option.value = date;
+                        option.textContent = `Date: ${date} - Content: ${content.length > 30 ? content.substring(0, 30) + '...' : content}`;
+                        expandableSelect.appendChild(option);
+                    });
+                } catch (error) {
+                    console.error("An error occurred while processing the results and appending options:", error);
+                    // Optionally, you can display an error message to the user or take other actions
+                }
             });
         });
 
