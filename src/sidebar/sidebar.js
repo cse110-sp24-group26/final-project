@@ -23,10 +23,6 @@ class Sidebar extends HTMLElement {
 
             <m-tags>
             </m-tags>
-            
-            <div>
-                Remaining space
-            </div>
         `
     }
 }

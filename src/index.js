@@ -1,11 +1,11 @@
 /* ROOT_COMPONENT.js */
 /* The root element of everything, owning the sidebar, search bar, and main editor */
 
+import "./state/database.js"
+import "./state/events.js"
 import "./editor/editor.js"
 import "./sidebar/sidebar.js"
 import "./search/search_bar.js"
-import "./state/database.js"
-import "./state/events.js"
 
 class RootComponent extends HTMLElement {
     connectedCallback() {
