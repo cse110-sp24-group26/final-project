@@ -8,7 +8,7 @@
 /* SUBSCRIBES to tag_changed even via state/events.js whenever the tag is changed for a date entry so that the calendar can update its contents */
 
 
-import './calendar/calendar.js'
+import './calendar.js'
 import './toolbar.js'
 import './tags.js'
 
