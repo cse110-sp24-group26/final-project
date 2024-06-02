@@ -1,4 +1,7 @@
 # Team 26 Final Project
+![Branch Protections](https://github.com/cse110-sp24-group26/final-project/actions/workflows/branch_protections.yml/badge.svg)
+[![Maintainability](https://api.codeclimate.com/v1/badges/dc240009287fe02ee564/maintainability)](https://codeclimate.com/github/cse110-sp24-group26/final-project/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/dc240009287fe02ee564/test_coverage)](https://codeclimate.com/github/cse110-sp24-group26/final-project/test_coverage)
 
 Developer Journal
 
