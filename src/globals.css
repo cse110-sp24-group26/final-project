@@ -1,33 +1,33 @@
-:root {
-	font-size: 20px;
+html {
+    font-size: 20px;
 }
 
 body {
-	--background: #ffffff;
-	--text: #000000;
-	--accent: #ffffff;
+    --background: #edeaff;
+    --heading: #465177;
+    --layered-background: #bdcbff;
+    --colored-divider: #7c8bbf;
+    --border: #adb3c9;
+    --accent: #ffffff;
 
-	--tag0: #6dc0ff;
-	--tag1: #3baaff;
-	--tag2: #ff9b72;
-	--tag3: #c192ff;
-	--tag4: #718cc0;
-	--tag5: #ff593a;
+    --tag-inactive: rgba(129, 142, 190, 0.4);
+    --tag-inactive-fg: rgba(124, 139, 191, 1);
+    --tag-active: rgba(193, 146, 255, 0.8);
 
-	--heading-font: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-	--font: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-	--monospaced-font: Consolas;
+    --styled-text: #465177;
 
-	font-family: var(--font);
-	margin: 0px;
+
+    --label-font: "Signika Negative", sans-serif;
+    --monospaced-font: "JetBrains Mono", monospace;
+
+    font-family: var(--font);
+    margin: 0px;
 }
-
 
 h1 {
-	font: var(--heading-font);
+    font-family: var(--label-font);
+    font-weight: 400;
+    font-size: 1.5rem;
+    color: var(--heading);
+    margin: 10px;
 }
-
-h2 {
-	font: var(--heading-font);
-}
-

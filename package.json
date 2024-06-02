@@ -1,14 +1,27 @@
 {
   "devDependencies": {
+    "@babel/cli": "^7.24.6",
+    "@babel/core": "^7.24.6",
+    "@babel/preset-env": "^7.24.6",
+    "@cypress/code-coverage": "^3.12.39",
     "@eslint/js": "^9.2.0",
+    "babel-plugin-istanbul": "^6.1.1",
     "cypress": "^13.9.0",
     "eslint": "^9.2.0",
     "globals": "^15.2.0",
-    "jsdoc": "^4.0.3"
+    "jsdoc": "^4.0.3",
+    "nyc": "^15.1.0"
   },
   "scripts": {
-    "test": "cypress run --headless --browser electron",
+    "test": "npx babel src --out-dir build/src && npx babel cypress --out-dir build/cypress && nyc cypress run --headless --browser electron",
+    "coverage": "nyc report --reporter=lcov",
     "docs": "jsdoc src -r -d docs",
     "lint": "eslint src"
+  },
+  "nyc": {
+	"all": true,
+	"reporter": ["text", "html"],
+	"report-dir": "coverage",
+	"include": ["src/**/*.js"]
   }
 }

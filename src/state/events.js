@@ -12,16 +12,16 @@
  * @return none
  */
 export function publishTagChangedEvent(date, tags) {
-	const event = new CustomEvent("tag_changed", 
-		{ 
-			detail: 
-				{
-					date: date,
-					tags: tags
-				}
-		}
-	);
-	document.body.dispatchEvent(event);
+    const event = new CustomEvent("tag_changed", 
+        { 
+            detail: 
+                {
+                    date: date,
+                    tags: tags
+                }
+        }
+    );
+    document.body.dispatchEvent(event);
 }
 
 /** Sychronously publishes an event that dictates that the current date is going to be opened
@@ -32,15 +32,15 @@ export function publishTagChangedEvent(date, tags) {
  * @return none
  */
 export function publishOpenDateEvent(date) {
-	const event = new CustomEvent("open_date", 
-		{ 
-			detail: 
-				{
-					date: date,
-				}
-		}
-	);
-	document.body.dispatchEvent(event);
+    const event = new CustomEvent("open_date", 
+        { 
+            detail: 
+                {
+                    date: date,
+                }
+        }
+    );
+    document.body.dispatchEvent(event);
 }
 
 // callback given date as first parameter, tags as second one
@@ -52,9 +52,9 @@ export function publishOpenDateEvent(date) {
  * @return none
  */
 export function subscribeTagChangedEvent(target, callback) {
-	document.body.addEventListener("tag_changed", (e) => {
-		callback(new Date(e.detail.date.getTime()), e.detail.tags);
-	});
+    document.body.addEventListener("tag_changed", (e) => {
+        callback(new Date(e.detail.date.getTime()), e.detail.tags);
+    });
 }
 
 /** Permanently registers a callback that is called synchronously whenever a 
@@ -65,7 +65,7 @@ export function subscribeTagChangedEvent(target, callback) {
  * @return none
  */
 export function subscribeOpenDateEvent(target, callback) {
-	document.body.addEventListener("open_date", (e) => {
-		callback(e.detail.date);
-	});
+    document.body.addEventListener("open_date", (e) => {
+        callback(e.detail.date);
+    });
 }
