@@ -13,7 +13,7 @@
     "nyc": "^15.1.0"
   },
   "scripts": {
-    "test": "npx babel src --out-dir build/src && npx babel src --out-dir build/src && nyc cypress run --headless --browser electron",
+    "test": "npx babel src --out-dir build/src && npx babel cypress --out-dir build/cypress && nyc cypress run --headless --browser electron",
     "coverage": "nyc report --reporter=lcov",
     "docs": "jsdoc src -r -d docs",
     "lint": "eslint src"
