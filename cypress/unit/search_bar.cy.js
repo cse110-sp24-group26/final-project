@@ -13,13 +13,12 @@ describe('Search Bar Test', () => {
     it('dynamic query test', () => {
         cy.log("Dynamic Query Test");
         cy.wrap(initDB()).then(() => {
-            return cy.wrap(saveEntry('2024-10-11', "Text Content", ["tag 1", "tag 2"]));
+            return cy.wrap(saveEntry('2024-10-11', "Text Content", [0, 1]));
         }).then(() => {
-            cy.get('#search-placeholder').should('be.visible').click();
-            cy.get('#expandable-input').should('be.visible').type('Text Content');
-            cy.get('#expandable-select').find('option').should('have.length', 1)
+            cy.get('#search-field').should('be.visible').type('Text Content');
+            cy.get('#expandable-select').find('div').should('have.length', 1)
                 .and((options) => {
-                    expect(options.first()).to.contain.text('Date: 2024-10-11 - Content: Text Content');
+                    expect(options.first()).to.contain.text('2024-10-11 "Text Content..."');
                 });
         });
     });

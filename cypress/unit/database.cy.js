@@ -6,7 +6,6 @@ function sleep(ms) {
 
 describe('Database Test', () => {
   it('database load and set test', async () => {
-    cy.log("Hello World");
     await initDB();
     saveEntry('2024-10-11', "Text Content", ["tag 1", "tag 2"]);
 
@@ -60,13 +59,13 @@ describe('Database Test', () => {
 
     await sleep(100);
 
-    expect(content).to.equal("");
+    expect(content).to.equal(" ");
     expect(tags).to.deep.equal([]);
   });
 
   it('database query test', async () => {
 	await initDB();
-	saveEntry('2024-10-11', "Text Content", ["tag 1", "tag 2"]);
+	saveEntry('2024-10-11', "Text Content", [0, 1]);
 
     // sleep for some time since saveEntry is async
 	await sleep(100);
@@ -78,6 +77,6 @@ describe('Database Test', () => {
 
 	await sleep(100);
 
-	expect(results).to.deep.equal([{date: '2024-10-11', content: 'Text Content', tags: ['tag 1', 'tag 2']}]);
+	expect(results).to.deep.equal([['2024-10-11', '']]);
   });
 })

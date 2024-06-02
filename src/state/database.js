@@ -4,21 +4,22 @@
  */
 
 /** Loads whether the user prefers dark or light theme 
+ * Note: currently unused
  *
  * @return the preferred user theme: either the string 'dark' or the string 'light'
  */
-export function loadUserThemePreference() {
-    localStorage.getItem("user-theme") || 'light';
-}
+// export function loadUserThemePreference() {
+//     localStorage.getItem("user-theme") || 'light';
+// }
 
 /* Saves whether the user prefers dark or light theme
- *
+ * Currently unused
  * @param theme either the string 'light' or the string 'dark'
  * @return none
  */
-export function saveUserThemePreference(theme) {
-    localStorage.setItem("user-theme", theme);
-}
+// export function saveUserThemePreference(theme) {
+//     localStorage.setItem("user-theme", theme);
+// }
 
 /** Loads last opened tabs
  *
@@ -169,7 +170,7 @@ export function saveEntry(date, content, tags) {
  */
 function entryMatchesQuery(entry, query) {
     query = query.toLowerCase();
-    
+
     if (entry.date.includes(query)) {
         return "";
     }
@@ -189,7 +190,7 @@ function entryMatchesQuery(entry, query) {
     for (let i = 0; i < entry.tags.length; i++) {
         let index = entry.tags[i];
         if (tags[index].includes(query)) {
-            return "[tag]   " + tags[index];
+            return "[tag] " + tags[index];
         }
     }
  
