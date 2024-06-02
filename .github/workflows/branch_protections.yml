@@ -36,4 +36,4 @@ jobs:
           # account will be deleted, don't really care about it being public
           CC_TEST_REPORTER_ID: 4aaddd8457776a6696f6ebf261b5d2a65bac86e6ebbdd8a46f693d5db841d14a
         with:
-          coverageCommand: npx nyc report --reporter=text-lcov
+          coverageCommand: npm run coverage
