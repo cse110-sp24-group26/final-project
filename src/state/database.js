@@ -158,9 +158,18 @@ export function saveEntry(date, content, tags) {
     });
 }
 
-
+/**
+ * 
+ * @param {Object} entry is a JS Object that has three fields: date, content, and tags
+ * @param {String} query is a String used to search for matches in the entry's date, content, and tags
+ * @returns the entry if the query results in a match or null otherwise
+ */
 function entryMatchesQuery(entry, query) {
-    return "Matches!"
+	if (entry.date.includes(query) || entry.content.includes(query) || entry.tags.includes(query)){
+		console.log(entry)
+		return entry
+	}
+	return null
 }
 
 /** finds search results 
@@ -169,29 +178,30 @@ function entryMatchesQuery(entry, query) {
  * @return none
  */
 export function searchQuery(query, callback) {
-    const transaction = db.transaction("entries", "readwrite");
+	const transaction = db.transaction("entries", "readwrite");
 
-    const entryStore = transaction.objectStore("entries");
-    const request = entryStore.openCursor();
+	const entryStore = transaction.objectStore("entries");
+	const request = entryStore.openCursor();
 
-    const results = [];
-    request.onsuccess = (e) => {
-        const cursor = e.target.result;
-        if (cursor) {
-            const curr = cursor.value;
-        
-            const matching = entryMatchesQuery(curr, query);
-            if (matching !== null) {
-                results.push(matching);
-            }
+	const results = [];
+	request.onsuccess = (e) => {
+		const cursor = e.target.result;
+		if (cursor) {
+			const curr = cursor.value;
+		
+			const matching = entryMatchesQuery(curr, query);
+			if (matching !== null) {
+				results.push(matching);
+			}
 
-            cursor.continue();
-        } else {
-            callback(results);                        
-        }
-    };
+			cursor.continue();
+		} else {
+			console.log(results);
+			callback(results);						
+		}
+	};
 
-    request.onerror = () => {
-        console.error("Database search failed");
-    };
+	request.onerror = () => {
+		console.error("Database search failed");
+	};
 }

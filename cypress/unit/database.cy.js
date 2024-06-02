@@ -1,4 +1,4 @@
-import {initDB, saveEntry, loadEntry } from '../../src/state/database.js'
+import {initDB, saveEntry, loadEntry, searchQuery } from '../../src/state/database.js'
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -62,5 +62,22 @@ describe('Database Test', () => {
 
     expect(content).to.equal("");
     expect(tags).to.deep.equal([]);
+  });
+
+  it('database query test', async () => {
+	await initDB();
+	saveEntry('2024-10-11', "Text Content", ["tag 1", "tag 2"]);
+
+    // sleep for some time since saveEntry is async
+	await sleep(100);
+
+	let results = null;
+	searchQuery('2024-10-11', (r) => {
+		results= r;
+	});
+
+	await sleep(100);
+
+	expect(results).to.deep.equal([{date: '2024-10-11', content: 'Text Content', tags: ['tag 1', 'tag 2']}]);
   });
 })

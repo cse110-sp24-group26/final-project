@@ -3,6 +3,7 @@
 
 /* QUERIES state/database.js for getting search results */
 /* PUBLISHES open_tab event (via state/events.js) once a search result is selected */
+import { searchQuery } from '../state/database.js';
 
 class SearchBar extends HTMLElement {
     connectedCallback() {
@@ -12,11 +13,6 @@ class SearchBar extends HTMLElement {
                 <div id="expandable-section" class="hidden">
                     <input type="text" id="expandable-input" placeholder="Type to search..." />
                     <select id="expandable-select" size="5">
-                        <option value="option1">Option 1</option>
-                        <option value="option2">Option 2</option>
-                        <option value="option3">Option 3</option>
-                        <option value="option4">Option 4</option>
-                        <option value="option5">Option 5</option>
                     </select>
                 </div>
             </div>
@@ -27,6 +23,9 @@ class SearchBar extends HTMLElement {
         const expandableInput = this.querySelector('#expandable-input');
         const expandableSelect = this.querySelector('#expandable-select');
 
+        /**
+         * When the search field is clicked, the placeholder textbox is hidden and dropdown expands
+         */
         placeholderInput.addEventListener('click', () => {
             placeholderInput.classList.add('hidden');
             expandableSection.classList.remove('hidden');
@@ -35,23 +34,18 @@ class SearchBar extends HTMLElement {
             expandableInput.focus();
         });
 
-        expandableInput.addEventListener('input', function() {
-            const options = expandableSelect.options;
-            for (let i = 0; i < options.length; i++) {
-                if (options[i].value.toLowerCase().includes(this.value.toLowerCase())) {
-                    options[i].style.display = 'block';
-                } else {
-                    options[i].style.display = 'none';
-                }
-            }
-        });
-
+        /**
+         * When the user selects an option, fills the search box with the date for that entry
+        */
         expandableSelect.addEventListener('change', () => {
             placeholderInput.value = expandableSelect.value;
             placeholderInput.classList.remove('hidden');
             expandableSection.classList.add('hidden');
         });
 
+        /**
+         * When the user clicks off the input text box, the dropdown closes and reverts back to the default search box
+         */
         expandableInput.addEventListener('blur', () => {
             setTimeout(() => {
                 if (!document.activeElement.closest('#expandable-section')) {
@@ -61,6 +55,30 @@ class SearchBar extends HTMLElement {
             }, 100);
         });
 
+        /**
+         * Performs dynamic querying to populate the options list as the user types into the input box
+         */
+        expandableInput.addEventListener('input', function(event){
+            const inputValue = event.target.value;
+            searchQuery(inputValue, (results) => {
+                console.log("Search results:", results);
+                expandableSelect.innerHTML = '';
+                try {
+                    results.forEach(({date, content}) => {
+                        const option = document.createElement('option');
+                        option.value = date;
+                        option.textContent = `Date: ${date} - Content: ${content.length > 30 ? content.substring(0, 30) + '...' : content}`;
+                        expandableSelect.appendChild(option);
+                    });
+                } catch (error) {
+                    console.error("An error occurred while processing the results and appending options:", error);
+                }
+            });
+        });
+
+        /**
+         * When the user clicks off the options list, the dropdown closes and reverts back to the default search box
+         */
         expandableSelect.addEventListener('blur', () => {
             setTimeout(() => {
                 if (!document.activeElement.closest('#expandable-section')) {
