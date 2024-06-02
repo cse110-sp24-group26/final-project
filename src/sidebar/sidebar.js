@@ -9,15 +9,11 @@
 
 
 import './calendar.js'
-import './toolbar.js'
 import './tags.js'
 
 class Sidebar extends HTMLElement {
     connectedCallback() {
         this.innerHTML = `
-            <m-toolbar>
-            </m-toolbar>
-
             <m-calendar>
             </m-calendar>
 

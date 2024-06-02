@@ -40,6 +40,9 @@ export function loadUserTabs() {
  * @return none
  */
 export function saveUserTabs(tabs) {
+    tabs = tabs.slice().sort((a, b) => {
+        return new Date(b) - new Date(a);
+    });
     localStorage.setItem("user-tabs", JSON.stringify(tabs));
 }
 
@@ -125,7 +128,7 @@ export function loadEntry(date, callback) {
                 callback(request.result.content, request.result.tags);
             }
             else {
-                callback("", []);
+                callback(" ", []);
             }
         };
     };
@@ -165,10 +168,31 @@ export function saveEntry(date, content, tags) {
  * @returns the entry if the query results in a match or null otherwise
  */
 function entryMatchesQuery(entry, query) {
-	if (entry.date.includes(query) || entry.content.includes(query) || entry.tags.includes(query)){
-		console.log(entry)
-		return entry
-	}
+    query = query.toLowerCase();
+    
+    if (entry.date.includes(query)) {
+        return "";
+    }
+
+    if (entry.content.toLowerCase().includes(query)) {
+        const backContext = 0;
+        const forwardContext = 25;
+        let content = entry.content;
+        let index = content.toLowerCase().indexOf(query);
+    
+        let start = Math.max(0, index - backContext);
+        let end = Math.min(content.length, index + query.length + Math.max(0, forwardContext - query.length));
+        return `"${content.substring(start, end)}..."`;
+    }
+
+    let tags = loadUserTags();
+    for (let i = 0; i < entry.tags.length; i++) {
+        let index = entry.tags[i];
+        if (tags[index].includes(query)) {
+            return "[tag]   " + tags[index];
+        }
+    }
+ 
 	return null
 }
 
@@ -191,12 +215,11 @@ export function searchQuery(query, callback) {
 		
 			const matching = entryMatchesQuery(curr, query);
 			if (matching !== null) {
-				results.push(matching);
+				results.push([curr.date, matching]);
 			}
 
 			cursor.continue();
 		} else {
-			console.log(results);
 			callback(results);						
 		}
 	};

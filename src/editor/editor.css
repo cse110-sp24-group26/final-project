@@ -3,8 +3,8 @@ m-editor {
     flex-direction: column;
     flex-grow: 1;
     align-items: stretch;
+    align-self: stretch;
 }
-
 
 /* MARK: tab */
 m-tab {
@@ -20,50 +20,99 @@ m-tab.tab-active button {
 m-tab-list {
     display: flex;
     flex-direction: row;
-    justify-content: left;
-    align-items: center;
-    gap: 10px;
-    overflow-x: scroll;
-
+    justify-content: start;
+    align-items: start;
+    align-self: stretch;
     margin: 10px 10px 0px 10px;
 }
 
 .tabs {
     display: flex;
-    flex-direction: row;
     overflow-x: scroll;
+    /* justify-content: left; */
+    /* align-items: flex-start; */
+    max-height: 50px;
+    max-width: calc(100vw - 320px);
+    flex-grow: 0;
+}
+
+.tabs::-webkit-scrollbar {
+    display: none;
+}
+
+m-tab {
+    border: none;
+    flex-grow: 0;
+    background-color: var(--layered-background);
+    border-radius: 5px;
+    border: solid 1px var(--colored-divider);
+    min-width: 105px;
+    width: 105px;
+    padding: 5px 4px;
+    margin: 5px;
+
+    display: flex;
+    align-items: center;
+}
+
+m-tab:only-child .close-button {
+    display: none;
+}
+
+.close-button {
+    background-color: transparent;
+    border: none;
+    color: var(--colored-divider);
+    font-size: 0.75rem;
+    padding-left: 5px;
+    padding-right: 0px;
+    margin: 0px;
+}
+
+.close-button:hover {
+    font-weight: bold;
+    color: black;
 }
 
 .tab-button {
     /* Add your default button styles here */
+    font-family: var(--label-font);
+    background-color: transparent;
+    border: none;
+    padding: none;
+    flex-grow: 1;
 }
 
-.tab-button.selected {
-    background-color: blue; /* Change this to the desired selected color */
-    color: white;
+.tab-button button {
+    border: none;
 }
-m-editor-tools {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    border: solid 1px black;
+
+
+m-tab.selected {
+    background-color: var(--tag-active); /* Change this to the desired selected color */
+    /* color: #fff; */
 }
+
 
 /* MARK: main editor */
 m-main-editor {
     margin: 10px;
-    width: 100%;
     flex-grow: 1;
+
+    align-self: stretch;
 }
 
 #text-editor {
     width: 100%;
     height: 100%;
+
+    
     display: inline-block;
     font-family: var(--monospaced-font);
+    box-sizing: border-box;
+    padding: 10px;
     /* theres probably a better way */
-    height: calc(100vh - 200px);
+    height: calc(100vh - 210px);
     overflow-y: scroll;
 }
 
@@ -75,6 +124,7 @@ m-main-editor {
     font-family: var(--label-font);
     font-size: 4rem;
     margin: 0px;
+    border-bottom: solid 1px var(--border);
 }
 
 #editor-scroll {

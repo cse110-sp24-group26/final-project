@@ -8,9 +8,9 @@ class Calendar extends HTMLElement {
             <div class="calendar">
                 <header>
                     <button id="prev">&#9664</button>
-                    <select id="month">
-                    </select>
                     <select id="year">
+                    </select>
+                    <select id="month">
                     </select>
                     <button id="next">&#9654</button>
                 </header>
@@ -115,8 +115,10 @@ class Calendar extends HTMLElement {
             let datesHtml = '';
 
             // Adds dates
+            let added = 0;
             for (let i = start; i > 0; i--) { //dates not in month
                 datesHtml += `<li class="inactive">${endDatePrev - i + 1}</li>`;
+                added += 1;
             }
 
             for (let i = 1; i <= endDate; i++) { //dates in month
@@ -128,12 +130,21 @@ class Calendar extends HTMLElement {
                     : "";
                     
                 datesHtml += `<li${className} ><button id=${i} >${i}</button></li>`;//Each li has a button inside of it
+                added += 1;
             }                                                                       //Li potentially has class: "today"
                                                                                     //button contains id of day and text of day
             for (let i = end; i < 6; i++) { //dates not in month
                 datesHtml += `<li class="inactive">${i - end + 1}</li>`;
+                added += 1;
             }
 
+            // 6 weeks displayed on calendar
+            if (added < 42) {
+                for (let i = 7; i < 14; i++) { //dates not in month
+                    datesHtml += `<li class="inactive">${i - end + 1}</li>`;
+                }
+            }
+            
             datesContainer.innerHTML = datesHtml;   //place dates in the dom
 
             monthSelect.value = month;  //set month and year in dropdown

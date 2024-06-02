@@ -18,14 +18,15 @@ class Tag extends HTMLElement {
 
         const button = document.createElement("button");
         button.textContent = this.tagNames[this.index];
-        button.addEventListener('dblclick', () =>{
+        button.oncontextmenu = (event) =>{
+            event.preventDefault();
             const newText = prompt("Enter the new text for the tag:");
             if (newText !== null) {
                 this.tagNames[this.index] = newText;
                 button.textContent = newText;
                 saveUserTags(this.tagNames);
             }
-        });
+        };
 
         button.addEventListener('click', () => {
             if (this.className === "tag-inactive") {

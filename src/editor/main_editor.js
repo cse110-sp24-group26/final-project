@@ -223,7 +223,9 @@ class MainEditor extends HTMLElement {
 
             editor.innerHTML = html;
 
-            this.setCursorPos(pos);
+            if (pos !== 0) {
+                this.setCursorPos(pos);
+            }
         }
     }
 
@@ -239,6 +241,8 @@ class MainEditor extends HTMLElement {
             const editor = document.getElementById("text-editor");
             editor.innerText = text;
             editor.focus();
+
+            this.renderMarkdown();
         });
     }
 
