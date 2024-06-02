@@ -46,13 +46,10 @@ class MainEditor extends HTMLElement {
             offset = range.startOffset;
         } else {
             offset = 0;
-            console.log(container);
             for (let i = 0; i < range.startOffset; i++) {
                 offset += this.nodeSize(container.childNodes[i]);
-                console.log("Offset", offset);
             }
         }
-        console.log("Offset", range, offset);
 
         while (container !== editor) {
             const parent = container.parentNode;  
@@ -60,7 +57,6 @@ class MainEditor extends HTMLElement {
             for (let i = 0; i < indexInParent; i++) {
                 offset += this.nodeSize(parent.childNodes[i]);
             }
-            console.log("Index", indexInParent);
             container = parent;
         }
 
@@ -224,7 +220,6 @@ class MainEditor extends HTMLElement {
 
         if (editor.innerHTML !== html) {
             let pos = this.getCursorPos();
-            console.log("Position", pos);
 
             editor.innerHTML = html;
 
@@ -269,7 +264,6 @@ class MainEditor extends HTMLElement {
             const date = dateString(this.currentDate);
             const text = editor.innerText;
             if (text !== this.old) {
-                console.log("Rerender");
                 this.old = text;
                 
                 this.renderMarkdown(text);
