@@ -8,16 +8,12 @@
 /* SUBSCRIBES to tag_changed even via state/events.js whenever the tag is changed for a date entry so that the calendar can update its contents */
 
 
-import './calendar/calendar.js'
-import './toolbar.js'
+import './calendar.js'
 import './tags.js'
 
 class Sidebar extends HTMLElement {
     connectedCallback() {
         this.innerHTML = `
-            <m-toolbar>
-            </m-toolbar>
-
             <m-calendar>
             </m-calendar>
 
