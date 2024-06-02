@@ -20,8 +20,6 @@ class Editor extends HTMLElement {
         this.innerHTML = `
             <m-tab-list>
             </m-tab-list>
-            <m-editor-tools>
-            </m-editor-tools>
             <m-main-editor>
             </m-main-editor>
         `

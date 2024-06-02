@@ -76,7 +76,7 @@ class Tags extends HTMLElement {
     }
 
     connectedCallback() {
-        const header = document.createElement("p");
+        const header = document.createElement("h1");
         header.innerText = "Tags";
 
         this.appendChild(header);

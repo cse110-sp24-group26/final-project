@@ -84,12 +84,9 @@ class TabList extends HTMLElement {
                 .tabs {
                     display: flex;
                     flex-direction: row;
+                    overflow-x: scroll;
                 }
             </style>
-
-
-
-
             <div class="tabs"></div>
         `
     }
@@ -145,7 +142,7 @@ class TabList extends HTMLElement {
             }
         });
 
-        this.openDate(new Date());
+		this.openDate(new Date());
     }
    
     // Clear all tabs from the list and local storage

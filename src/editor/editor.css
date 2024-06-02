@@ -1,9 +1,10 @@
 m-editor {
     display: flex;
     flex-direction: column;
-    align-items: stretch;
     flex-grow: 1;
+    align-items: stretch;
 }
+
 
 /* MARK: tab */
 m-tab {
@@ -22,13 +23,25 @@ m-tab-list {
     justify-content: left;
     align-items: center;
     gap: 10px;
-    overflow-y: scroll;
+    overflow-x: scroll;
 
     margin: 10px 10px 0px 10px;
-
-    border: solid 1px black;
 }
 
+.tabs {
+    display: flex;
+    flex-direction: row;
+    overflow-x: scroll;
+}
+
+.tab-button {
+    /* Add your default button styles here */
+}
+
+.tab-button.selected {
+    background-color: blue; /* Change this to the desired selected color */
+    color: white;
+}
 m-editor-tools {
     display: flex;
     flex-direction: row;
@@ -40,18 +53,45 @@ m-editor-tools {
 /* MARK: main editor */
 m-main-editor {
     margin: 10px;
+    width: 100%;
     flex-grow: 1;
 }
 
 #text-editor {
     width: 100%;
     height: 100%;
-    box-sizing: border-box;
-    border: solid 1px black;
+    display: inline-block;
+    font-family: var(--monospaced-font);
+    /* theres probably a better way */
+    height: calc(100vh - 200px);
+    overflow-y: scroll;
 }
 
 #text-editor:focus {
-    border: solid 1px blue !important;
-    outline: 0px solid transparent;
+    outline: none;
 }
 
+#editor-date {
+    font-family: var(--label-font);
+    font-size: 4rem;
+    margin: 0px;
+}
+
+#editor-scroll {
+    width: 100%;
+}
+
+.editor-bold {
+    font-weight: bold;
+    color: var(--colored-divider);
+}
+
+.editor-italic {
+    font-style: italic;
+    color: var(--colored-divider);
+}
+
+.editor-heading {
+    color: var(--colored-divider);
+    font-weight: bold;
+}

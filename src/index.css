@@ -1,5 +1,9 @@
 /* styles for the aligning the different components together */
 
+body {
+    max-height: 100vh;
+}
+
 main {
     display: flex;
     flex-direction: row;
@@ -13,6 +17,9 @@ main {
     flex-direction: column;
     align-items: stretch;
 
-    flex-grow: 1;
     align-self: stretch;
+
+    flex-grow: 1;
+
+    max-height: 100vh;
 }
