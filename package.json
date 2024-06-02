@@ -1,5 +1,6 @@
 {
   "devDependencies": {
+    "@cypress/code-coverage": "^3.12.39",
     "@eslint/js": "^9.2.0",
     "cypress": "^13.9.0",
     "eslint": "^9.2.0",
@@ -7,7 +8,7 @@
     "jsdoc": "^4.0.3"
   },
   "scripts": {
-    "test": "cypress run --headless --browser electron",
+    "test": "nyc cypress run --headless --browser electron",
     "docs": "jsdoc src -r -d docs",
     "lint": "eslint src"
   }
