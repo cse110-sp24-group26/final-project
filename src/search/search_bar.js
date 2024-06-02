@@ -7,8 +7,6 @@ import { searchQuery } from '../state/database.js';
 
 class SearchBar extends HTMLElement {
     connectedCallback() {
-        //saveEntry('2024-10-11', "Text Content", ["tag 1", "tag 2"]);
-
         this.innerHTML = `
             <div class="select-container">
                 <input type="text" id="search-placeholder" placeholder="Search Workbook..." readonly />
@@ -25,6 +23,9 @@ class SearchBar extends HTMLElement {
         const expandableInput = this.querySelector('#expandable-input');
         const expandableSelect = this.querySelector('#expandable-select');
 
+        /**
+         * When the search field is clicked, the placeholder textbox is hidden and dropdown expands
+         */
         placeholderInput.addEventListener('click', () => {
             placeholderInput.classList.add('hidden');
             expandableSection.classList.remove('hidden');
@@ -33,23 +34,18 @@ class SearchBar extends HTMLElement {
             expandableInput.focus();
         });
 
-        expandableInput.addEventListener('input', function() {
-            const options = expandableSelect.options;
-            for (let i = 0; i < options.length; i++) {
-                if (options[i].value.toLowerCase().includes(this.value.toLowerCase())) {
-                    options[i].style.display = 'block';
-                } else {
-                    options[i].style.display = 'none';
-                }
-            }
-        });
-
+        /**
+         * When the user selects an option, fills the search box with the date for that entry
+        */
         expandableSelect.addEventListener('change', () => {
             placeholderInput.value = expandableSelect.value;
             placeholderInput.classList.remove('hidden');
             expandableSection.classList.add('hidden');
         });
 
+        /**
+         * When the user clicks off the input text box, the dropdown closes and reverts back to the default search box
+         */
         expandableInput.addEventListener('blur', () => {
             setTimeout(() => {
                 if (!document.activeElement.closest('#expandable-section')) {
@@ -59,6 +55,9 @@ class SearchBar extends HTMLElement {
             }, 100);
         });
 
+        /**
+         * Performs dynamic querying to populate the options list as the user types into the input box
+         */
         expandableInput.addEventListener('input', function(event){
             const inputValue = event.target.value;
             searchQuery(inputValue, (results) => {
@@ -73,11 +72,13 @@ class SearchBar extends HTMLElement {
                     });
                 } catch (error) {
                     console.error("An error occurred while processing the results and appending options:", error);
-                    // Optionally, you can display an error message to the user or take other actions
                 }
             });
         });
 
+        /**
+         * When the user clicks off the options list, the dropdown closes and reverts back to the default search box
+         */
         expandableSelect.addEventListener('blur', () => {
             setTimeout(() => {
                 if (!document.activeElement.closest('#expandable-section')) {
