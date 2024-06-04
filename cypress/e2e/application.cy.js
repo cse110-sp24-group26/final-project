@@ -9,13 +9,15 @@ describe('Overall Test', () => {
 		editor.type("Text Query");
 
 		const search = cy.get('m-search-bar').find('#search-field');
-		search.type("Text");
+		search.type("Text ** \n# hello _italic_ ** bold __");
 		sleep(100);
 		search.type('{enter}');
 		search.type('{downArrow}');
 		search.type('{upArrow}');
 
 		cy.get('.selected').should('exist');
+
+		cy.reload();
 	});
 
 	it('open date test', () => {
