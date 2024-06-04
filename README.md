@@ -2,6 +2,30 @@
 
 Developer Journal
 
+## Usage
+
+To use the developer journal, visit the app site [here](https://cse110-sp24-group26.github.io/final-project/).
+
+### Tabs and Entries
+
+The journal allows you to create and edit a single entry for each unique day of the calendar. You can do so by selecting a date on the calendar. This will open a tab where you can edit the entry for that day in the editor. You can have multiple tabs open, and when you're done editing an entry, you can close out the tab by hitting the x on the tab label.
+
+### Calendar Navigation
+
+To navigate to different months and years of the calendar, you can use the arrows to go to next and previous months, or click on the month or year text and select which ever you want from the dropdown.
+
+### Tags
+
+When a tab is open for a day's entry, you can click the tags underneath the calendar to toggle which tags you want to apply to the day. Clicking toggled tags once more allows you to untoggle them for that day. You can right-click the tags to rename them, allowing you to categorize your entries however you please.
+
+### Search
+
+The search bar at the very top center of the screen allows you to search for entries based on their content. For example, by selecting the bar and typing in `UI planning`, you will be shown entries that contain `UI planning` if any. You may also type in dates in the format of `2024-06-01` to quick open the entry for that date if you've opened it before.
+
+### Text Editor
+
+When typing out your entry, you can enclose your text with underscores `_like so_` to italicize your text, with two asterisks `**like so**` to bolden your text, or with both to italicize AND bolden `**_like so_**`
+
 ## Development Process
 1. To initiate a feature, first open an issue according to one of several provided templates. If applicable, we make sure to assign the person working on that feature in the issue itself
 2. Create a feature branch for this feature
