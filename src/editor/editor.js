@@ -12,7 +12,6 @@
 /* SAVES saveUserTabs via state/database.js whenever the list of openTabs has been changed */
 
 import './main_editor.js'
-import './editor_tools.js'
 import './tab_list.js'
 
 class Editor extends HTMLElement {

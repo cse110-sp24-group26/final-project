@@ -10,18 +10,24 @@
     "eslint": "^9.2.0",
     "globals": "^15.2.0",
     "jsdoc": "^4.0.3",
-    "nyc": "^15.1.0"
+    "nyc": "^15.1.0",
+    "parcel": "^2.12.0"
   },
   "scripts": {
-    "test": "npx babel src --out-dir build/src && npx babel cypress --out-dir build/cypress && nyc cypress run --headless --browser electron",
+    "test": "rm -rf build .nyc_output && npx babel src -d build/src --copy-files && npx babel cypress -d build/cypress --copy-files && nyc cypress run --headless --browser electron",
     "coverage": "nyc report --reporter=lcov",
     "docs": "jsdoc src -r -d docs",
     "lint": "eslint src"
   },
   "nyc": {
-	"all": true,
-	"reporter": ["text", "html"],
-	"report-dir": "coverage",
-	"include": ["src/**/*.js"]
+    "all": true,
+    "reporter": [
+      "text",
+      "html"
+    ],
+    "report-dir": "coverage",
+    "include": [
+      "src/**/*.js"
+    ]
   }
 }
