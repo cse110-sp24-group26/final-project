@@ -106,6 +106,13 @@ class MainEditor extends HTMLElement {
         // however, on most browsers it works out
         const editor = document.getElementById("text-editor");
         const content = editor.innerText;
+        if (content === "") {
+            if (editor.innerHTML !== "") {
+                editor.innerHTML = "";
+            }
+            return;
+        }
+
         const lines = content.split('\n');
         let cursor = 0;
 

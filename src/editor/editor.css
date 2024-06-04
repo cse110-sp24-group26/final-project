@@ -116,6 +116,10 @@ m-main-editor {
     overflow-y: scroll;
 }
 
+#text-editor:empty {
+    display: block;
+}
+
 #text-editor:focus {
     outline: none;
 }
