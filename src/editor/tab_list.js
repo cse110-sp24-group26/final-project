@@ -1,27 +1,158 @@
+import {publishOpenDateEvent, subscribeOpenDateEvent} from '../state/events.js'
+import { loadUserTabs, saveUserTabs, loadEntry } from '../state/database.js'
+
+
+// Define a custom element 'm-tab' for individual tabs
 class Tab extends HTMLElement {
-	connectedCallback() {
-		this.innerHTML = `
-			Tab
-		`
-	}
+    constructor() {
+        super();
+    }
+
+
+    // This method is called when the element is added to the DOM
+    connectedCallback() {
+        this.render();
+    }
+
+
+    // Render the tab element
+    render() {
+        this.close = document.createElement('button');
+        this.close.classList.add('close-button');
+        this.close.innerHTML = '&times;';
+        this.appendChild(this.close);
+
+        this.button = document.createElement('button');
+        this.button.classList.add('tab-button');
+        this.button.innerHTML = this.getAttribute('label');
+        this.appendChild(this.button);
+
+        // Add an event listener to handle tab clicks
+        this.addEventListener('click', () => {
+            // Publish the open date event with the selected date
+            publishOpenDateEvent(new Date(this.getAttribute('date')));
+        });
+
+        this.close.onclick = (event) => {
+            event.stopPropagation();
+
+            this.remove();
+            const tabList = document.querySelector('m-tab-list');
+            const tabs = document.querySelector('m-tab-list .tabs');
+            const index = tabList.tabs.indexOf(this.getAttribute('date'));
+            tabList.tabs = tabList.tabs.filter(date => date !== this.getAttribute('date'));
+            saveUserTabs(tabList.tabs);
+            if (this.classList.contains("selected")) {
+                publishOpenDateEvent(new Date(tabs.children[Math.min(tabList.tabs.length - 1, index)].getAttribute('date')));
+            }
+        }
+    }
+
+    setSelected(isSelected) {
+        if (isSelected) {
+            this.classList.add('selected');
+        } else {
+            this.classList.remove('selected');
+        }
+    }
 }
 
 
 customElements.define('m-tab', Tab);
 
+
+// Define a custom element 'm-tab-list' for the list of tabs
 class TabList extends HTMLElement {
-	connectedCallback() {
-		this.innerHTML = `
-			<m-tab>
-			</m-tab>
+    constructor() {
+        super();
+        this.tabs = [];
+    }
 
-			<m-tab>
-			</m-tab>
 
-			<m-tab>
-			</m-tab>
-		`
-	}
+    // This method is called when the element is added to the DOM
+    connectedCallback() {
+        this.innerHTML = `
+            <div class="tabs"></div>
+        `
+        
+        this.loadTabs();
+
+        // Subscribe to the open_date event
+        subscribeOpenDateEvent(this, (date) => {
+            this.openDate(date);
+        });
+    }
+   
+    formatLabel(date) {
+        return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+    }
+
+    // Add a new tab to the list
+    addTab(date, label) {
+        // Check if a tab with the same date already exists
+        const existingTab = document.querySelector(`m-tab[date="${date}"]`);
+        if (!existingTab || null ) {
+            const tab = document.createElement('m-tab');
+            tab.setAttribute('date', date);
+            
+            tab.setAttribute('label', this.formatLabel(label));
+            document.querySelector('.tabs').prepend(tab);
+            this.tabs.unshift(date);
+            saveUserTabs(this.tabs); // Save tabs to local storage
+        }
+    }
+
+    // Handle the event when a date is clicked in the calendar
+    openDate(date) {
+        const label = new Date(date);
+        const newDate = new Date(date).toDateString();
+        this.addTab(newDate, label);
+
+        document.querySelectorAll('m-tab').forEach(tab => {
+            const isSelected = tab.getAttribute('date') === newDate;
+            tab.setSelected(isSelected);
+        });
+    }
+
+    // Load saved tabs from local storage
+    loadTabs() {
+        this.tabs = loadUserTabs();
+        const tabsContainer = document.querySelector('.tabs');
+        tabsContainer.innerHTML = ''; // Clear existing tabs before loading
+   
+        this.tabs.forEach(date => {
+            // Check if a tab for this date already exists
+            const existingTab = document.querySelector(`m-tab[date="${date}"]`);
+            if (!existingTab) {
+                // If no tab exists for this date, create and add a new tab
+                const label = new Date(date);
+                const tab = document.createElement('m-tab');
+                tab.setAttribute('date', date);
+                tab.setAttribute('label', this.formatLabel(label));
+                tabsContainer.append(tab);
+            }
+        });
+
+		this.openDate(new Date());
+    }
+   
+    // Clear all tabs from the list and local storage
+    clearAllTabs() {
+        this.tabs = [];
+        saveUserTabs(this.tabs);
+        document.querySelector('.tabs').innerHTML = '';
+    }  
 }
-
 customElements.define('m-tab-list', TabList);
+
+// Clear all saved tabs from the local storage, can use in console if needed
+window.clearAllSavedTabs = function() {
+    const tabList = document.querySelector('m-tab-list');
+    if (tabList) {
+        tabList.clearAllTabs();
+    } 
+};
+
+
+
+

@@ -1,4 +1,7 @@
 # Team 26 Final Project
+![Branch Protections](https://github.com/cse110-sp24-group26/final-project/actions/workflows/branch_protections.yml/badge.svg)
+[![Maintainability](https://api.codeclimate.com/v1/badges/dc240009287fe02ee564/maintainability)](https://codeclimate.com/github/cse110-sp24-group26/final-project/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/dc240009287fe02ee564/test_coverage)](https://codeclimate.com/github/cse110-sp24-group26/final-project/test_coverage)
 
 Developer Journal
 
@@ -27,17 +30,22 @@ The search bar at the very top center of the screen allows you to search for ent
 When typing out your entry, you can enclose your text with underscores `_like so_` to italicize your text, with two asterisks `**like so**` to bolden your text, or with both to italicize AND bolden `**_like so_**`
 
 ## Development Process
-1. To initiate a feature, first open an issue according to one of several provided templates. If applicable, we make sure to assign the person working on that feature in the issue itself
-2. Create a feature branch for this feature
-3. Develop the feature and test locally
-4. Push the feature and submit a pull request
-5. GitHub actions will ensure that nothing goes wrong in terms of linting and testing
-6. Have a manual review by at least one other person
-7. Merge into staging
-8. Have two other people manually review the staging branch to ensure no unexpected merge conflicts
-9. Merge into main
-10. GitHub actions will build the documentation and website
-11. Repeat for next issue
+1. During team meetings or on Slack, decide what needs to be worked on in terms of bugs, features, documentation, etc and create issues list
+2. For each issue in the list, open an issue accoridng to one of several provided templates. If applicable make sure to assign the person working on that feature in the issue itself
+3. Create a new branch for the issue from the issue page so that it is automatically linked and make sure to name the branch according to the conventions below 
+4. Add issues to the team board by going to the backlog tab and following the given steps:
+    -  Click Add item near the bottom of the "todo" section
+    - Input "#" to bring up the repositories and select "final-project"
+    - Then search for the brand new issue and select it to add it to the board
+5. Develop on the branch and test locally, make sure to update the issue to "in progress" on team board
+6. Push on the branch and submit a pull request to staging
+7. GitHub actions will ensure that nothing goes wrong in terms of linting and testing
+8. Have a manual review by at least one other person
+9. Merge into staging
+10. Have two other people manually review the staging branch to ensure no unexpected merge conflicts
+11. Merge into main, update the issue to "done" on the team board
+12. GitHub actions will build the documentation and website
+13. Repeat for next issue from step 2 onwards
 
 ## Branching
 There is the main branch which contains the production code. There is also a staging branch, where we ensure that recent merges do not do anything unexpected. Apart from that, all features or other additions to the project are done in short lived feature branches. 
