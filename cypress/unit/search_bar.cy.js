@@ -2,7 +2,7 @@ import {initDB, saveEntry, searchQuery } from '../../src/state/database.js'
 
 describe('Search Bar Test', () => {
     beforeEach(() => {
-        cy.visit('../../src/index.html'); 
+        cy.visit('../../build/src/index.html'); 
     });
 
     cy.on('uncaught:exception', (err, runnable) => {
