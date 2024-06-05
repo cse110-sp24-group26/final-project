@@ -189,7 +189,7 @@ function entryMatchesQuery(entry, query) {
     let tags = loadUserTags();
     for (let i = 0; i < entry.tags.length; i++) {
         let index = entry.tags[i];
-        if (tags[index].includes(query)) {
+        if (tags[index].toLowerCase().includes(query)) {
             return "[tag] " + tags[index];
         }
     }
