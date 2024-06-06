@@ -1,7 +1,16 @@
+/*
+ * File: main_editor.js
+ * Description: Implementation of the main text editor, including Markdown support.
+ * Author: Your Name
+ */
 import { subscribeOpenDateEvent } from '../state/events.js'
 import { saveEntry, loadEntry } from '../state/database.js'
 import { dateString } from '../util.js'
 
+/**
+ * This class contains the main text editor, along with the title. Handles Markdown rendering and
+ * saving and loading the entries.
+ */
 class MainEditor extends HTMLElement {
     /**
      * Main editor constructor. Sets the currentDate to be today.

@@ -1,8 +1,15 @@
+/*
+ * File: tab_list.js
+ * Description: Implementation of the tabs and tab list
+ * Author: Your Name
+ */
 import {publishOpenDateEvent, subscribeOpenDateEvent} from '../state/events.js'
 import { loadUserTabs, saveUserTabs, loadEntry } from '../state/database.js'
 
 
-// Define a custom element 'm-tab' for individual tabs
+/**
+ * Custom tab class that represents a tab within the list
+ */
 class Tab extends HTMLElement {
     constructor() {
         super();
@@ -68,7 +75,9 @@ class Tab extends HTMLElement {
 customElements.define('m-tab', Tab);
 
 
-// Define a custom element 'm-tab-list' for the list of tabs
+/**
+ * This class handles the creation and management of tabs
+ */
 class TabList extends HTMLElement {
     /**
      * Constructs an empty tab list
