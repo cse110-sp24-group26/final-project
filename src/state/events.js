@@ -43,6 +43,9 @@ export function publishOpenDateEvent(date) {
     document.body.dispatchEvent(event);
 }
 
+// Make the function globally accessible for Cypress tests and other external scripts
+window.publishOpenDateEvent = publishOpenDateEvent;
+
 // callback given date as first parameter, tags as second one
 /** Permanently registers a callback that is called synchronously whenever a 
  * tag changed event is published
