@@ -8,14 +8,17 @@ class Tab extends HTMLElement {
         super();
     }
 
-
-    // This method is called when the element is added to the DOM
+    /**
+     * Initializes the tab
+     */
     connectedCallback() {
         this.render();
     }
 
 
-    // Render the tab element
+    /**
+     * Renders the tab. Adds buttons, text, and event listeners.
+     */
     render() {
         this.close = document.createElement('button');
         this.close.classList.add('close-button');
@@ -48,6 +51,11 @@ class Tab extends HTMLElement {
         }
     }
 
+    /**
+     * If isSelected, then makes the tab selected. Otherwise unselects
+     * the tab
+     * @param {boolean} isSelected 
+     */
     setSelected(isSelected) {
         if (isSelected) {
             this.classList.add('selected');
@@ -63,13 +71,18 @@ customElements.define('m-tab', Tab);
 
 // Define a custom element 'm-tab-list' for the list of tabs
 class TabList extends HTMLElement {
+    /**
+     * Constructs the tab list
+     */
     constructor() {
         super();
         this.tabs = [];
     }
 
 
-    // This method is called when the element is added to the DOM
+    /**
+     * Initializes the list and adds tabs.
+     */
     connectedCallback() {
         this.innerHTML = `
             <div class="tabs"></div>
@@ -83,11 +96,21 @@ class TabList extends HTMLElement {
         });
     }
    
+    /**
+     * Formats date and returns it as a string.
+     * @param {Date} date 
+     * @returns The formatted date
+     */
     formatLabel(date) {
         return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
     }
 
-    // Add a new tab to the list
+    /**
+     * Adds a new tab corresponding for date if it is not already in the list.
+     * Also saves the tab list.
+     * @param {Date} date 
+     * @param {String} label label of the tab
+     */
     addTab(date, label) {
         // Check if a tab with the same date already exists
         const existingTab = document.querySelector(`m-tab[date="${date}"]`);
@@ -102,7 +125,10 @@ class TabList extends HTMLElement {
         }
     }
 
-    // Handle the event when a date is clicked in the calendar
+    /**
+     * Opens a new tab for the date
+     * @param {Date} date 
+     */
     openDate(date) {
         const label = new Date(date);
         const newDate = new Date(date).toDateString();
@@ -114,7 +140,9 @@ class TabList extends HTMLElement {
         });
     }
 
-    // Load saved tabs from local storage
+    /**
+     * Loads saved tabs from localStorage and replaces any existing tabs
+     */
     loadTabs() {
         this.tabs = loadUserTabs();
         const tabsContainer = document.querySelector('.tabs');
@@ -136,7 +164,9 @@ class TabList extends HTMLElement {
 		this.openDate(new Date());
     }
    
-    // Clear all tabs from the list and local storage
+    /**
+     * Saves all tabs and clears the list.
+     */
     clearAllTabs() {
         this.tabs = [];
         saveUserTabs(this.tabs);
@@ -145,14 +175,12 @@ class TabList extends HTMLElement {
 }
 customElements.define('m-tab-list', TabList);
 
-// Clear all saved tabs from the local storage, can use in console if needed
+/**
+ * Clears all saved tabs from local storage.
+ */
 window.clearAllSavedTabs = function() {
     const tabList = document.querySelector('m-tab-list');
     if (tabList) {
         tabList.clearAllTabs();
     } 
 };
-
-
-
-
