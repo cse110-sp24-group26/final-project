@@ -4,7 +4,7 @@ import { dateString } from '../util.js'
 
 class MainEditor extends HTMLElement {
     /**
-     * Initializes the currentDate to be today.
+     * Main editor constructor. Sets the currentDate to be today.
      */
     constructor() {
         super();
@@ -20,11 +20,10 @@ class MainEditor extends HTMLElement {
     }
 
     /**
-     * Returns the size of node. If node is a text node, then it is is the 
-     * length. If it is a break, then it is 1. Else, it returnd the sum of the
-     * sizes of the child nodes.
+     * Returns the size of node. If node is a text node, then it is the length of the node. If it
+     * is a break, then it is 1. Otherwise, it returns the sum of the sizes of the child nodes.
      * @param {Node} node 
-     * @returns 
+     * @returns Size of node
      */
     nodeSize(node) {
         if (node.nodeType === Node.TEXT_NODE) {
@@ -43,8 +42,8 @@ class MainEditor extends HTMLElement {
     }
 
     /**
-     * Returns the current position of the cursor, or 0 if the user has not
-     * clikced yet.
+     * Returns the current position of the cursor, or 0 if the user has not clicked on the page
+     * yet.
      * @returns The current position of the cursor
      */
     getCursorPos() {
@@ -78,8 +77,8 @@ class MainEditor extends HTMLElement {
     }
 
     /**
-     * Sets the position of the cursor in node to the offset. If node is not a
-     * text node, it will set the position into a child node.
+     * Sets the position of the cursor in node to the offset. If node is not a text node, it will set the position\
+     * to be in a child node.
      * @param {Node} node 
      * @param {Number} offset 
      */
@@ -124,8 +123,8 @@ class MainEditor extends HTMLElement {
     }
 
     /**
-     * Renders the Markdown content in the editor. Bolds, italicizes, and
-     * creates headings.
+     * Renders the Markdown content in the editor by setting tags. Bolds, italicizes, and creates
+     * headings.
      */
     renderMarkdown() {
         // note that <b> <i> </b> </i> is technically malformed by w3c
@@ -196,7 +195,7 @@ class MainEditor extends HTMLElement {
                 const before = state[event.type];
                 if (before) {
                     html += endwords[event.type];
-                    // basically \n to <br? causes problems
+                    // basically \n to <br> causes problems
                     // ugly hack
                     j += startwords[event.type].length - 1;
                 }
@@ -262,8 +261,7 @@ class MainEditor extends HTMLElement {
     }
 
     /**
-     * Loads the entry associated with the given date, and updates the 
-     * displayed date
+     * Loads the entry associated with the given date, and updates the displayed date
      * @param {Date} date
      */
     loadDate(date) {
@@ -284,8 +282,7 @@ class MainEditor extends HTMLElement {
     }
 
     /**
-     * Initializes the main editor. Saves the previous contents and subscribes
-     * to the open date event to load the page
+     * Initializes the main editor. Saves the previous contents and subscribes to the open date event to load the page
      */
     connectedCallback() {
         this.innerHTML = `

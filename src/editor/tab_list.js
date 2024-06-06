@@ -9,7 +9,7 @@ class Tab extends HTMLElement {
     }
 
     /**
-     * Initializes the tab
+     * Initializes and renders the tab
      */
     connectedCallback() {
         this.render();
@@ -52,8 +52,7 @@ class Tab extends HTMLElement {
     }
 
     /**
-     * If isSelected, then makes the tab selected. Otherwise unselects
-     * the tab
+     * If isSelected, then makes the tab selected. Otherwise unselects the tab
      * @param {boolean} isSelected 
      */
     setSelected(isSelected) {
@@ -72,7 +71,7 @@ customElements.define('m-tab', Tab);
 // Define a custom element 'm-tab-list' for the list of tabs
 class TabList extends HTMLElement {
     /**
-     * Constructs the tab list
+     * Constructs an empty tab list
      */
     constructor() {
         super();
@@ -81,7 +80,7 @@ class TabList extends HTMLElement {
 
 
     /**
-     * Initializes the list and adds tabs.
+     * Initializes the list and adds tabs. Also subscribes to the open date event
      */
     connectedCallback() {
         this.innerHTML = `
@@ -106,8 +105,8 @@ class TabList extends HTMLElement {
     }
 
     /**
-     * Adds a new tab corresponding for date if it is not already in the list.
-     * Also saves the tab list.
+     * Adds a new tab corresponding to date if it is not already in the list also saves the tab 
+     * list.
      * @param {Date} date 
      * @param {String} label label of the tab
      */
