@@ -3,6 +3,9 @@ import { saveEntry, loadEntry } from '../state/database.js'
 import { dateString } from '../util.js'
 
 class MainEditor extends HTMLElement {
+    /**
+     * Initializes the currentDate to be today.
+     */
     constructor() {
         super();
         // technically, there is a race condition near midnight
@@ -16,6 +19,13 @@ class MainEditor extends HTMLElement {
         // i guess we'll just skip line numbers then...
     }
 
+    /**
+     * Returns the size of node. If node is a text node, then it is is the 
+     * length. If it is a break, then it is 1. Else, it returnd the sum of the
+     * sizes of the child nodes.
+     * @param {Node} node 
+     * @returns 
+     */
     nodeSize(node) {
         if (node.nodeType === Node.TEXT_NODE) {
             return node.length;
@@ -32,6 +42,11 @@ class MainEditor extends HTMLElement {
         }
     }
 
+    /**
+     * Returns the current position of the cursor, or 0 if the user has not
+     * clikced yet.
+     * @returns The current position of the cursor
+     */
     getCursorPos() {
         const editor = document.getElementById("text-editor");;
         const selection = window.getSelection();
@@ -44,7 +59,7 @@ class MainEditor extends HTMLElement {
         let offset;
         if (container.nodeType === Node.TEXT_NODE) {
             offset = range.startOffset;
-        } else {
+        } else {    
             offset = 0;
             for (let i = 0; i < range.startOffset; i++) {
                 offset += this.nodeSize(container.childNodes[i]);
@@ -59,10 +74,15 @@ class MainEditor extends HTMLElement {
             }
             container = parent;
         }
-
         return offset;
     }
 
+    /**
+     * Sets the position of the cursor in node to the offset. If node is not a
+     * text node, it will set the position into a child node.
+     * @param {Node} node 
+     * @param {Number} offset 
+     */
     _setPos(node, offset) {
         if (node.nodeType === Node.TEXT_NODE) {
             const range = document.createRange();
@@ -94,14 +114,20 @@ class MainEditor extends HTMLElement {
         }
     }
 
+    /**
+     * Sets the position of the cursor to the given position
+     * @param {Number} pos 
+     */
     setCursorPos(pos) {
         const editor = document.getElementById("text-editor");
         this._setPos(editor, pos);
     }
 
+    /**
+     * Renders the Markdown content in the editor. Bolds, italicizes, and
+     * creates headings.
+     */
     renderMarkdown() {
-        // render basic markdown formatting based off the new content
-
         // note that <b> <i> </b> </i> is technically malformed by w3c
         // however, on most browsers it works out
         const editor = document.getElementById("text-editor");
@@ -192,7 +218,7 @@ class MainEditor extends HTMLElement {
 
                 if (!before) {
                     html += startwords[event.type];
-                    // basically \n to <br? causes problems
+                    // basically \n to <br> causes problems
                     j += startwords[event.type].length - 1;
                 }
 
@@ -227,18 +253,22 @@ class MainEditor extends HTMLElement {
 
         if (editor.innerHTML !== html) {
             let pos = this.getCursorPos();
-
+            console.log(pos)
             editor.innerHTML = html;
-
             if (pos !== 0) {
                 this.setCursorPos(pos);
             }
         }
     }
 
+    /**
+     * Loads the entry associated with the given date, and updates the 
+     * displayed date
+     * @param {Date} date
+     */
     loadDate(date) {
         this.currentDate = date;
-
+        console.log(date)
         const dateE = document.getElementById("editor-date");  
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
         const formattedDate = date.toLocaleDateString('en-US', options);
@@ -253,6 +283,10 @@ class MainEditor extends HTMLElement {
         });
     }
 
+    /**
+     * Initializes the main editor. Saves the previous contents and subscribes
+     * to the open date event to load the page
+     */
     connectedCallback() {
         this.innerHTML = `
                 <p id="editor-date">
@@ -276,7 +310,6 @@ class MainEditor extends HTMLElement {
             const text = editor.innerText;
             if (text !== this.old) {
                 this.old = text;
-                
                 this.renderMarkdown(text);
                 saveEntry(date, text, undefined);
             }
