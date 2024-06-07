@@ -78,51 +78,44 @@ describe('Calendar Navigation/Scrolling Tests', () => {
         return false;
     });
 
-    it('Navigating to previous month nav', () => {
+    it('Checking correct month and year with next nav', () => {
+        let date = new Date();
+        let nextMonth = (date.getMonth() + 1) % 12;
+        let year = date.getFullYear();
 
+        if (nextMonth === 0) {
+            year += 1;
+        }
+
+        cy.get('#next').click();
+        
+        cy.get('#month').invoke('val').then((monthNum) => {
+            expect(monthNum).to.equal(nextMonth.toString());
+        });
+
+        cy.get('#year').invoke('val').then((yearNum) => {
+            expect(yearNum).to.equal(year.toString());
+        });
     })
 
-    it('Navigating to next month with nav', () => {
+    it('Checking correct month and year with prev nav', () => {
+        let date = new Date();
+        let prevMonth = (date.getMonth() - 1);
+        let year = date.getFullYear();
 
-    })
+        if (prevMonth === -1) {
+            year -= 1;
+            prevMonth = 11
+        }
 
-    it('Navigating to previous month with dropdown', () => {
+        cy.get('#prev').click();
 
-    })
+        cy.get('#month').invoke('val').then((monthNum) => {
+            expect(monthNum).to.equal(prevMonth.toString());
+        });
 
-    it('Navigating to next month with dropdown', () => {
-
-    })
-
-    it('Navigating to next month with dropdown', () => {
-
-    })
-})
-
-describe('Date Selection Tests', () => {
-    beforeEach(() => {
-        //visting the html file
-        cy.visit('../../build/src/index.html');
-    });
-
-    cy.on('uncaught:exception', (err, runnable) => {
-        console.error('An error occurred:', err.message);
-        return false;
-    });
-    
-    it ('Selecting a date in the past', () => {
-
-    })
-
-    it('Selecting a date in the future', () => {
-
-    })
-
-    it('Selecting inactive dates', () => {
-
-    })
-
-    it('Selecting a date and scrolling calendar', () => {
-
+        cy.get('#year').invoke('val').then((yearNum) => {
+            expect(yearNum).to.equal(year.toString());
+        });
     })
 })
