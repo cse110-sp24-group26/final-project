@@ -1,4 +1,3 @@
-
 //for future reference it is assumed that the date that is initially selected is today's date
 describe('Tags Test', () => {
     beforeEach(() => {

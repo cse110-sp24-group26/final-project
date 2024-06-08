@@ -1,11 +1,30 @@
+/* 
+ * File: tags.js
+ * Description: Implementation of the tags component 
+ * Author: Manu Bhat, Angelo Avanzado, Viann Perez Hernandez
+ * Date: 6/4/2024
+ */
 import { dateString } from '../util.js';
 import { loadEntry, saveEntry, loadUserTags, saveUserTags } from '../state/database.js';
 import { publishTagChangedEvent, subscribeOpenDateEvent } from '../state/events.js';
 
 const NUM_TAGS = 6;
 
+/**
+ * Represents a single Tag element. 
+ * 
+ * @class 
+ * @extends {HTMLElement}
+ */
 class Tag extends HTMLElement {
-    // callback is the function that should be called whenever this state is toggled
+    /**
+     * Creates an instance of Tag
+     * 
+     * @constructor
+     * @param {number} index - Index of the tag
+     * @param {Array<string>} tagNames - Names of the tags 
+     * @param {Function} toggleCallback - Callback function to be called when the tag state is toggled
+     */
     constructor(index, tagNames, toggleCallback) {
         super();
         this.index = index;
@@ -13,11 +32,18 @@ class Tag extends HTMLElement {
         this.toggleCallback = toggleCallback;
     }
 
+    /**
+     * Sets up the button for the tag, including its text content.
+     * Allows renaming of a tag.
+     * @return none 
+     */
     connectedCallback() {
         this.id = 'tag-' + this.index;
 
         const button = document.createElement("button");
         button.textContent = this.tagNames[this.index];
+
+        // right-click context menu for renaming tag option
         button.oncontextmenu = (event) =>{
             event.preventDefault();
             const newText = prompt("Enter the new text for the tag:");
@@ -28,6 +54,7 @@ class Tag extends HTMLElement {
             }
         };
 
+        // click event listener for toggling tag state 
         button.addEventListener('click', () => {
             if (this.className === "tag-inactive") {
                 this.className = "tag-active";
@@ -45,8 +72,18 @@ class Tag extends HTMLElement {
 
 customElements.define('m-tag', Tag);
 
+/**
+ * Manages a collection of Tag elements. 
+ * 
+ * @class
+ * @extends {HTMLElement}
+ */
 class Tags extends HTMLElement {
-
+   /**
+    * Callback function to handle updating of the tags.
+    * Determines which tags are active and saves the current entry with those tags.
+    * @return none  
+    */
     tagsUpdated() {
         let activeTags = [];
         for (let i = 0; i < NUM_TAGS; ++i) {
@@ -60,22 +97,34 @@ class Tags extends HTMLElement {
         publishTagChangedEvent(dateString(this.currentDate), activeTags);
     }
 
+    /**
+     * Updates the tags based on the provided date.
+     * 
+     * @param {Date} date - Date to load tags for
+     * @return none 
+     */
     updateFrom(date) {
         this.currentDate = date;
         
         loadEntry(dateString(date), (text, tags) => {
             this.activeTags = tags;
 
+            // reset all tags to inactive
             for (let i = 0; i < NUM_TAGS; ++i) {
                 this.tags.children.item(i).className = "tag-inactive";
             }
 
+            // activate appropiate tags 
             for (let i = 0; i < tags.length; ++i) {
                 this.tags.children.item(tags[i]).className = "tag-active";
             }
         });
     }
 
+    /**
+     * Sets up the tags component by loading and displaying user tags.
+     * @return none
+     */
     connectedCallback() {
         const header = document.createElement("h1");
         header.innerText = "Tags";
@@ -92,6 +141,7 @@ class Tags extends HTMLElement {
         }
         this.appendChild(this.tags);
 
+        // initialize with current date 
         this.updateFrom(new Date());
         subscribeOpenDateEvent(this, (date) => this.updateFrom(date));
     }

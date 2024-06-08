@@ -63,7 +63,7 @@ Development branches are to be named in the form of:
 - CSS: use rem as much as possible instead of px
 - Tab size: 4 spaces
 - Lines less than 100 characters
-- pascalCase
+- lowerCamelCase
 - Same line curly braces
 - Every function is documented, summary for complex files and funcctions with additional comments for complex logic, present tense
 - Include examples in comments for complex functions
@@ -88,7 +88,7 @@ Make sure to use our git commit message template when possible
 
 ## Additional Notes
 1. Make sure to follow our cipipeline when possible. I.e. create an issue and feature for each task. Once finished **submit a pull request to the staging branch NOT main**.
-2. Source files are present in the `src` directory.
+2. Source files are present in the `src` directory which you should be to host directly (i.e. `serve .` or LivePreview) to actually use the application
 3. Test files are present under `cypress/{e2e,component,unit}`
 4. Use `npm run docs` for generating documentation (locally) and `npm test` for running tests (in headless mode)
 5. Use `npm run lint` to run linter

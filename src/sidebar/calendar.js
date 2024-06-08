@@ -1,5 +1,16 @@
+/*
+ * File: calendar.js
+ * Description: Implementation of the calendar used to open entries
+ * Author: Jason Ho, Ekin Celik
+ */
 import {publishOpenDateEvent, subscribeOpenDateEvent} from '../state/events.js'   
 
+/**
+ * This class contains the entire functionality for the calendar component
+ * 
+ * @class 
+ * @extends {HTMLElement}
+ */
 class Calendar extends HTMLElement {
     connectedCallback() {
 
@@ -42,7 +53,7 @@ class Calendar extends HTMLElement {
         let todayDate = new Date();
         let month = todayDate.getMonth();
         let year = todayDate.getFullYear();
-        let selectedDate = new Date();//This stores the date that is currently highlighted/open in the editor
+        let selectedDate = new Date(); //This stores the date that is currently highlighted/open in the editor
 
         populateDropdown();
 
@@ -54,12 +65,14 @@ class Calendar extends HTMLElement {
 
         openDate(new Date());   //Opens today's date on startup. 
                                 //NOTE: We may need to publish an open_date event here to help the other components initialize to the same date.
-        //openDate(new Date("10-10-2020"));//Testing purposes
 
 //=====================================================Functions Definitions Below========================================================
 
 //--------------------------------------------------------------------------------------------------------------------populateDropdown()
-        //Adds dropdown functionality
+        /**
+         * Adds dropdown functionality to the calendar, populates it with the appropriate text
+         * @return none
+         */
         function populateDropdown() {
             const months = [
                 "January",
@@ -104,7 +117,10 @@ class Calendar extends HTMLElement {
         }
 
 //---------------------------------------------------------------------------------------------------------------------------renderCalendar()
-        //Renders the days in the calendar, including managing the selected day
+        /**
+         * Renders the days in the calendar, including managing the selected day
+         * @return none
+         */
         function renderCalendar() {
             // Figures out which dates of previous, current, and next month to display
             const start = new Date(year, month, 1).getDay();
@@ -160,16 +176,23 @@ class Calendar extends HTMLElement {
 
             renderSelectedDate();
 
-            //Update current date object, and publish open_date event
+            /**
+             * Update current date object, and publish open_date event
+             * @param {*} newDay
+             * @return none 
+             */
             function changeSelectedDate(newDay) {
                 selectedDate.setFullYear(year);
                 selectedDate.setMonth(month)
                 selectedDate.setDate(parseInt(newDay));
-                publishOpenDateEvent(selectedDate);//publish open date event with JavaScript Date Object
+                publishOpenDateEvent(selectedDate);         //publish open date event with JavaScript Date Object
                 renderCalendar();             
             }
 
-            //Set the selected date's DOM properties so that it gets displayed by the css
+            /**
+             * Set the selected date's DOM properties so that it gets displayed by the css
+             * @return none
+             */
             function renderSelectedDate() {
                 if (selectedDate.getFullYear() == year && selectedDate.getMonth() == month) { //if selected date is in this month
                     let buttonToSelect = document.getElementById(`${selectedDate.getDate()}`); 
@@ -179,7 +202,10 @@ class Calendar extends HTMLElement {
         }
 
 //------------------------------------------------------------------------------------------------------------------------enableMonthArrows()
-        // Adds next and prev click functionality to render next or prev month
+        /**
+         * Adds next and prev click functionality to render next or prev month
+         * @return none
+         */
         function enableMonthArrows() {
             navs.forEach((nav) => {
                 nav.addEventListener("click", (e) => {
@@ -201,14 +227,18 @@ class Calendar extends HTMLElement {
         }  
         
 //-----------------------------------------------------------------------------------------------------------------------openDate()
-        //Opens a given date. This is the callback function for subscribeOpenDateEvent()
+        /**
+         * Opens a given date. This is the callback function for subscribeOpenDateEvent()
+         * @param {*} dateToOpen
+         * @return none 
+         */
         function openDate(dateToOpen) {
             month = dateToOpen.getMonth();
             year = dateToOpen.getFullYear();
             selectedDate = new Date(dateToOpen.getTime());
             renderCalendar();
-        }//this could be a lambda (or whatever js calls it) inside the subscribeOpenDateEvent function, but I chose to leave it out
-    }    //so that it can be used in other cases, whenever we want to open a specific date.
+        }
+    }    
 }
 
 customElements.define('m-calendar', Calendar)
