@@ -14,7 +14,16 @@
 import './main_editor.js'
 import './tab_list.js'
 
+/**
+ * This class contains the main editor
+ * @class 
+ * @extends {HTMLElement}
+ */
 class Editor extends HTMLElement {
+    /**
+     * Renders the main editor
+     * @return none
+     */
     connectedCallback() {
         this.innerHTML = `
             <m-tab-list>

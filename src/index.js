@@ -7,7 +7,17 @@ import "./editor/editor.js"
 import "./sidebar/sidebar.js"
 import "./search/search_bar.js"
 
+/**
+ * This class contains the entire application
+ * 
+ * @class 
+ * @extends {HTMLElement}
+ */
 class RootComponent extends HTMLElement {
+    /**
+     * Renders the main application
+     * @return none
+     */
     connectedCallback() {
         this.innerHTML = `
             <main>
