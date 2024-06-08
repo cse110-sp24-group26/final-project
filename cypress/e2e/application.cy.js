@@ -6,10 +6,10 @@ describe('Overall Test', () => {
     it('basic search test', () => {
         cy.visit('../../build/src/index.html');
         const editor = cy.get('#text-editor');
-        editor.type("Text Query");
+        editor.type("Text Query \n# hello _italic_ ** bold __ <script>");
 
         const search = cy.get('m-search-bar').find('#search-field');
-        search.type("Text ** \n# hello _italic_ ** bold __");
+        search.type("Text");
         sleep(100);
         search.type('{enter}');
         search.type('{downArrow}');

@@ -25,41 +25,40 @@ class Tab extends HTMLElement {
         this.render();
     }
 
-
     /**
      * Renders the tab. Adds buttons, text, and event listeners.
      * @return none
      */
     render() {
+        // Create a close button and append it to the tab
         this.close = document.createElement('button');
         this.close.classList.add('close-button');
         this.close.innerHTML = '&times;';
         this.appendChild(this.close);
-
+        // Create a tab button and append it to the tab
         this.button = document.createElement('button');
         this.button.classList.add('tab-button');
         this.button.innerHTML = this.getAttribute('label');
         this.appendChild(this.button);
-
         // Add an event listener to handle tab clicks
         this.addEventListener('click', () => {
             // Publish the open date event with the selected date
             publishOpenDateEvent(new Date(this.getAttribute('date')));
         });
-
+        // Add an event listener to handle the close button click
         this.close.onclick = (event) => {
-            event.stopPropagation();
-
-            this.remove();
-            const tabList = document.querySelector('m-tab-list');
-            const tabs = document.querySelector('m-tab-list .tabs');
-            const index = tabList.tabs.indexOf(this.getAttribute('date'));
-            tabList.tabs = tabList.tabs.filter(date => date !== this.getAttribute('date'));
-            saveUserTabs(tabList.tabs);
+            event.stopPropagation(); // Prevent the event from bubbling up
+            this.remove(); // Remove the tab element
+            const tabList = document.querySelector('m-tab-list'); // Get the tab list
+            const tabs = document.querySelector('m-tab-list .tabs'); // Get the tabs container
+            const index = tabList.tabs.indexOf(this.getAttribute('date')); // Get the index of the current tab
+            tabList.tabs = tabList.tabs.filter(date => date !== this.getAttribute('date')); // Remove the current tab from the tabs array
+            saveUserTabs(tabList.tabs); // Save the updated tabs array
+            // If the current tab is selected, select the previous tab or the next tab
             if (this.classList.contains("selected")) {
                 publishOpenDateEvent(new Date(tabs.children[Math.min(tabList.tabs.length - 1, index)].getAttribute('date')));
             }
-        }
+        };
     }
 
     /**

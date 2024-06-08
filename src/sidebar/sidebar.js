@@ -11,7 +11,15 @@
 import './calendar.js'
 import './tags.js'
 
+/**
+ * This class contains the sidebar
+ * @class 
+ * @extends {HTMLElement}
+ */
 class Sidebar extends HTMLElement {
+    /**
+     * Renders the sidebar
+     */
     connectedCallback() {
         this.innerHTML = `
             <m-calendar>

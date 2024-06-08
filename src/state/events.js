@@ -54,11 +54,11 @@ window.publishOpenDateEvent = publishOpenDateEvent;
  * @param callback a function that takes two parameters and will be called whenever the event in question occurs: the first parameter is the date where the tags were changed, and the second is a list of tags, given as the indices (i.e. numbers) of the new tags
  * @return none
  */
-export function subscribeTagChangedEvent(target, callback) {
-    document.body.addEventListener("tag_changed", (e) => {
-        callback(new Date(e.detail.date.getTime()), e.detail.tags);
-    });
-}
+// export function subscribeTagChangedEvent(target, callback) {
+//     document.body.addEventListener("tag_changed", (e) => {
+//         callback(new Date(e.detail.date.getTime()), e.detail.tags);
+//     });
+// }
 
 /** Permanently registers a callback that is called synchronously whenever a 
  * open date event is published
