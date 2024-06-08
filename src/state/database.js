@@ -194,7 +194,7 @@ function entryMatchesQuery(entry, query) {
         }
     }
  
-	return null
+    return null
 }
 
 /** finds search results 
@@ -203,29 +203,29 @@ function entryMatchesQuery(entry, query) {
  * @return none
  */
 export function searchQuery(query, callback) {
-	const transaction = db.transaction("entries", "readwrite");
+    const transaction = db.transaction("entries", "readwrite");
 
-	const entryStore = transaction.objectStore("entries");
-	const request = entryStore.openCursor();
+    const entryStore = transaction.objectStore("entries");
+    const request = entryStore.openCursor();
 
-	const results = [];
-	request.onsuccess = (e) => {
-		const cursor = e.target.result;
-		if (cursor) {
-			const curr = cursor.value;
-		
-			const matching = entryMatchesQuery(curr, query);
-			if (matching !== null) {
-				results.push([curr.date, matching]);
-			}
+    const results = [];
+    request.onsuccess = (e) => {
+        const cursor = e.target.result;
+        if (cursor) {
+            const curr = cursor.value;
+        
+            const matching = entryMatchesQuery(curr, query);
+            if (matching !== null) {
+                results.push([curr.date, matching]);
+            }
 
-			cursor.continue();
-		} else {
-			callback(results);						
-		}
-	};
+            cursor.continue();
+        } else {
+            callback(results);                        
+        }
+    };
 
-	request.onerror = () => {
-		console.error("Database search failed");
-	};
+    request.onerror = () => {
+        console.error("Database search failed");
+    };
 }

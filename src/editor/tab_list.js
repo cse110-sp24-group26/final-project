@@ -175,7 +175,7 @@ class TabList extends HTMLElement {
             }
         });
 
-		this.openDate(new Date());
+        this.openDate(new Date());
     }
    
     /**

@@ -64,19 +64,19 @@ describe('Database Test', () => {
   });
 
   it('database query test', async () => {
-	await initDB();
-	saveEntry('2024-10-11', "Text Content", [0, 1]);
+    await initDB();
+    saveEntry('2024-10-11', "Text Content", [0, 1]);
 
     // sleep for some time since saveEntry is async
-	await sleep(100);
+    await sleep(100);
 
-	let results = null;
-	searchQuery('2024-10-11', (r) => {
-		results= r;
-	});
+    let results = null;
+    searchQuery('2024-10-11', (r) => {
+        results= r;
+    });
 
-	await sleep(100);
+    await sleep(100);
 
-	expect(results).to.deep.equal([['2024-10-11', '']]);
+    expect(results).to.deep.equal([['2024-10-11', '']]);
   });
 })

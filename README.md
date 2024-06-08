@@ -63,7 +63,7 @@ Development branches are to be named in the form of:
 - CSS: use rem as much as possible instead of px
 - Tab size: 4 spaces
 - Lines less than 100 characters
-- pascalCase
+- lowerCamelCase
 - Same line curly braces
 - Every function is documented, summary for complex files and funcctions with additional comments for complex logic, present tense
 - Include examples in comments for complex functions
