@@ -1,7 +1,7 @@
 /*
  * File: tab_list.js
  * Description: Implementation of the tabs and tab list
- * Author: Your Name
+ * Author: Angel Chavez, Suhaib Chowdhury, Santiago Duque
  */
 import {publishOpenDateEvent, subscribeOpenDateEvent} from '../state/events.js'
 import { loadUserTabs, saveUserTabs, loadEntry } from '../state/database.js'
@@ -9,6 +9,9 @@ import { loadUserTabs, saveUserTabs, loadEntry } from '../state/database.js'
 
 /**
  * Custom tab class that represents a tab within the list
+ * 
+ * @class 
+ * @extends {HTMLElement}
  */
 class Tab extends HTMLElement {
     constructor() {
@@ -25,6 +28,7 @@ class Tab extends HTMLElement {
 
     /**
      * Renders the tab. Adds buttons, text, and event listeners.
+     * @return none
      */
     render() {
         this.close = document.createElement('button');
@@ -60,7 +64,8 @@ class Tab extends HTMLElement {
 
     /**
      * If isSelected, then makes the tab selected. Otherwise unselects the tab
-     * @param {boolean} isSelected 
+     * @param {boolean} isSelected
+     * @return none 
      */
     setSelected(isSelected) {
         if (isSelected) {
@@ -71,12 +76,12 @@ class Tab extends HTMLElement {
     }
 }
 
-
 customElements.define('m-tab', Tab);
-
 
 /**
  * This class handles the creation and management of tabs
+ * @class 
+ * @extends {HTMLElement}
  */
 class TabList extends HTMLElement {
     /**
@@ -150,6 +155,7 @@ class TabList extends HTMLElement {
 
     /**
      * Loads saved tabs from localStorage and replaces any existing tabs
+     * @return none
      */
     loadTabs() {
         this.tabs = loadUserTabs();
@@ -174,6 +180,7 @@ class TabList extends HTMLElement {
    
     /**
      * Saves all tabs and clears the list.
+     * @return none
      */
     clearAllTabs() {
         this.tabs = [];
@@ -185,6 +192,7 @@ customElements.define('m-tab-list', TabList);
 
 /**
  * Clears all saved tabs from local storage.
+ * @return none
  */
 window.clearAllSavedTabs = function() {
     const tabList = document.querySelector('m-tab-list');

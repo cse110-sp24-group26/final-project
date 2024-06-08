@@ -1,5 +1,16 @@
+/*
+ * File: calendar.js
+ * Description: Implementation of the calendar used to open entries
+ * Author: Jason Ho, Ekin Celik
+ */
 import {publishOpenDateEvent, subscribeOpenDateEvent} from '../state/events.js'   
 
+/**
+ * This class contains the entire functionality for the calendar component
+ * 
+ * @class 
+ * @extends {HTMLElement}
+ */
 class Calendar extends HTMLElement {
     connectedCallback() {
 
@@ -59,7 +70,9 @@ class Calendar extends HTMLElement {
 //=====================================================Functions Definitions Below========================================================
 
 //--------------------------------------------------------------------------------------------------------------------populateDropdown()
-        //Adds dropdown functionality
+        /**
+         * Adds dropdown functionality to the calendar, populates it with the appropriate text
+         */
         function populateDropdown() {
             const months = [
                 "January",
