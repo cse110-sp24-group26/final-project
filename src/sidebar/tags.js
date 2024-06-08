@@ -34,7 +34,8 @@ class Tag extends HTMLElement {
 
     /**
      * Sets up the button for the tag, including its text content.
-     * Allows renaming of a tag. 
+     * Allows renaming of a tag.
+     * @return none 
      */
     connectedCallback() {
         this.id = 'tag-' + this.index;
@@ -80,7 +81,8 @@ customElements.define('m-tag', Tag);
 class Tags extends HTMLElement {
    /**
     * Callback function to handle updating of the tags.
-    * Determines which tags are active and saves the current entry with those tags.  
+    * Determines which tags are active and saves the current entry with those tags.
+    * @return none  
     */
     tagsUpdated() {
         let activeTags = [];
@@ -98,7 +100,8 @@ class Tags extends HTMLElement {
     /**
      * Updates the tags based on the provided date.
      * 
-     * @param {Date} date - Date to load tags for 
+     * @param {Date} date - Date to load tags for
+     * @return none 
      */
     updateFrom(date) {
         this.currentDate = date;
@@ -119,7 +122,8 @@ class Tags extends HTMLElement {
     }
 
     /**
-     * Sets up the tags component by loading and displaying user tags.  
+     * Sets up the tags component by loading and displaying user tags.
+     * @return none
      */
     connectedCallback() {
         const header = document.createElement("h1");

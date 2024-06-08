@@ -1,7 +1,7 @@
 /*
  * File: main_editor.js
  * Description: Implementation of the main text editor, including Markdown support.
- * Author: Your Name
+ * Author: Angel Chavez, Suhaib Chowdhury, Santiago Duque
  */
 import { subscribeOpenDateEvent } from '../state/events.js'
 import { saveEntry, loadEntry } from '../state/database.js'
@@ -10,6 +10,9 @@ import { dateString } from '../util.js'
 /**
  * This class contains the main text editor, along with the title. Handles Markdown rendering and
  * saving and loading the entries.
+ * 
+ * @class 
+ * @extends {HTMLElement}
  */
 class MainEditor extends HTMLElement {
     /**
@@ -20,12 +23,6 @@ class MainEditor extends HTMLElement {
         // technically, there is a race condition near midnight
         // we are ignoring this for simplicity
         this.currentDate = new Date();
-    }
-
-    updateLines(_content) {
-        // update the line numbers based off the new content    
-
-        // i guess we'll just skip line numbers then...
     }
 
     /**
